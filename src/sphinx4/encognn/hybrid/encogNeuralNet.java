@@ -47,11 +47,13 @@ public class encogNeuralNet extends javax.swing.JInternalFrame {
 
         jDialog1.setAlwaysOnTop(true);
         jDialog1.setIconImage(null);
-        jDialog1.setType(java.awt.Window.Type.UTILITY);
+        jDialog1.setLocationByPlatform(true);
+        jDialog1.setResizable(false);
 
         jFileChooser2.setApproveButtonText("Select");
         jFileChooser2.setDialogTitle("Open Folder for speaker 1");
         jFileChooser2.setFileSelectionMode(javax.swing.JFileChooser.DIRECTORIES_ONLY);
+        jFileChooser2.setMinimumSize(null);
         jFileChooser2.setName("Select");
         jFileChooser2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -63,12 +65,16 @@ public class encogNeuralNet extends javax.swing.JInternalFrame {
         jDialog1.getContentPane().setLayout(jDialog1Layout);
         jDialog1Layout.setHorizontalGroup(
             jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jFileChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, 4740, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jFileChooser2, javax.swing.GroupLayout.DEFAULT_SIZE, 505, Short.MAX_VALUE)
         );
         jDialog1Layout.setVerticalGroup(
             jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jFileChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, 3605, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(jDialog1Layout.createSequentialGroup()
+                .addComponent(jFileChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
+
+        jDialog1.getAccessibleContext().setAccessibleParent(this);
 
         setClosable(true);
         setResizable(true);
@@ -181,7 +187,7 @@ public class encogNeuralNet extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(212, Short.MAX_VALUE))
+                .addContainerGap(216, Short.MAX_VALUE))
         );
 
         pack();
@@ -190,7 +196,7 @@ public class encogNeuralNet extends javax.swing.JInternalFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         jDialog1.setTitle("open speech dir");
-        jDialog1.setSize(582, 418);
+       jDialog1.setSize(582, 400);
         jDialog1.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
