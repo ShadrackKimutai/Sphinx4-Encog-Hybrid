@@ -62,6 +62,9 @@
   <SyntheticProperties>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
   </SyntheticProperties>
+  <Events>
+    <EventHandler event="internalFrameClosing" listener="javax.swing.event.InternalFrameListener" parameters="javax.swing.event.InternalFrameEvent" handler="formInternalFrameClosing"/>
+  </Events>
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
     <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
@@ -89,7 +92,7 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="216" max="32767" attributes="0"/>
+              <EmptySpace pref="220" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -134,13 +137,13 @@
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jButton3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jButton1" min="-2" max="-2" attributes="0"/>
-                      <Component id="jButton2" min="-2" max="-2" attributes="0"/>
-                      <Component id="jButton4" min="-2" max="-2" attributes="0"/>
-                      <Component id="jButton5" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnSpeaker3" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnSpeaker1" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnSpeaker2" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnSpeaker4" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnSpeaker5" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="89" max="32767" attributes="0"/>
+                  <EmptySpace pref="69" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -151,31 +154,31 @@
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="lblSpeaker1" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="txtSpeaker1" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jButton1" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnSpeaker1" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="txtSpeaker2" alignment="3" max="32767" attributes="0"/>
-                      <Component id="jButton2" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnSpeaker2" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="lblSpeaker2" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace pref="10" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="lblSpeaker3" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="txtSpeaker3" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jButton3" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnSpeaker3" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="lblSpeaker4" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="txtSpeaker4" alignment="3" max="32767" attributes="0"/>
-                      <Component id="jButton4" alignment="3" pref="25" max="32767" attributes="0"/>
+                      <Component id="btnSpeaker4" alignment="3" pref="25" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="7" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="lblSpeaker5" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="txtSpeaker5" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jButton5" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnSpeaker5" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
           </Group>
@@ -217,32 +220,35 @@
         </Component>
         <Component class="javax.swing.JTextField" name="txtSpeaker5">
         </Component>
-        <Component class="javax.swing.JButton" name="jButton1">
+        <Component class="javax.swing.JButton" name="btnSpeaker1">
           <Properties>
-            <Property name="text" type="java.lang.String" value="jButton1"/>
+            <Property name="text" type="java.lang.String" value="Load Speech"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSpeaker1ActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="jButton2">
+        <Component class="javax.swing.JButton" name="btnSpeaker2">
           <Properties>
-            <Property name="text" type="java.lang.String" value="jButton1"/>
+            <Property name="text" type="java.lang.String" value="Load Speech"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSpeaker2ActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="btnSpeaker3">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Load Speech"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="jButton3">
+        <Component class="javax.swing.JButton" name="btnSpeaker4">
           <Properties>
-            <Property name="text" type="java.lang.String" value="jButton1"/>
+            <Property name="text" type="java.lang.String" value="Load Speech"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="jButton4">
+        <Component class="javax.swing.JButton" name="btnSpeaker5">
           <Properties>
-            <Property name="text" type="java.lang.String" value="jButton1"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JButton" name="jButton5">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="jButton1"/>
+            <Property name="text" type="java.lang.String" value="Load Speech"/>
           </Properties>
         </Component>
       </SubComponents>

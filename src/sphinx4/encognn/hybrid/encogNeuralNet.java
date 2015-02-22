@@ -39,11 +39,11 @@ public class encogNeuralNet extends javax.swing.JInternalFrame {
         txtSpeaker3 = new javax.swing.JTextField();
         txtSpeaker4 = new javax.swing.JTextField();
         txtSpeaker5 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
+        btnSpeaker1 = new javax.swing.JButton();
+        btnSpeaker2 = new javax.swing.JButton();
+        btnSpeaker3 = new javax.swing.JButton();
+        btnSpeaker4 = new javax.swing.JButton();
+        btnSpeaker5 = new javax.swing.JButton();
 
         jDialog1.setAlwaysOnTop(true);
         jDialog1.setIconImage(null);
@@ -81,6 +81,23 @@ public class encogNeuralNet extends javax.swing.JInternalFrame {
         setTitle("Encog Neural Network");
         setDesktopIcon(getDesktopIcon());
         setDoubleBuffered(true);
+        addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
+            public void internalFrameDeiconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameIconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
+                formInternalFrameClosing(evt);
+            }
+            public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
+            }
+        });
 
         jPanel2.setForeground(new java.awt.Color(240, 240, 240));
 
@@ -94,20 +111,25 @@ public class encogNeuralNet extends javax.swing.JInternalFrame {
 
         lblSpeaker5.setText("Speech Directory 5");
 
-        jButton1.setText("jButton1");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnSpeaker1.setText("Load Speech");
+        btnSpeaker1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnSpeaker1ActionPerformed(evt);
             }
         });
 
-        jButton2.setText("jButton1");
+        btnSpeaker2.setText("Load Speech");
+        btnSpeaker2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSpeaker2ActionPerformed(evt);
+            }
+        });
 
-        jButton3.setText("jButton1");
+        btnSpeaker3.setText("Load Speech");
 
-        jButton4.setText("jButton1");
+        btnSpeaker4.setText("Load Speech");
 
-        jButton5.setText("jButton1");
+        btnSpeaker5.setText("Load Speech");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -136,12 +158,12 @@ public class encogNeuralNet extends javax.swing.JInternalFrame {
                             .addComponent(txtSpeaker4))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton3)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2)
-                    .addComponent(jButton4)
-                    .addComponent(jButton5))
-                .addContainerGap(89, Short.MAX_VALUE))
+                    .addComponent(btnSpeaker3)
+                    .addComponent(btnSpeaker1)
+                    .addComponent(btnSpeaker2)
+                    .addComponent(btnSpeaker4)
+                    .addComponent(btnSpeaker5))
+                .addContainerGap(69, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -150,27 +172,27 @@ public class encogNeuralNet extends javax.swing.JInternalFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblSpeaker1)
                     .addComponent(txtSpeaker1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
+                    .addComponent(btnSpeaker1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtSpeaker2)
-                    .addComponent(jButton2)
+                    .addComponent(btnSpeaker2)
                     .addComponent(lblSpeaker2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblSpeaker3)
                     .addComponent(txtSpeaker3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3))
+                    .addComponent(btnSpeaker3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblSpeaker4)
                     .addComponent(txtSpeaker4)
-                    .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE))
+                    .addComponent(btnSpeaker4, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE))
                 .addGap(7, 7, 7)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblSpeaker5)
                     .addComponent(txtSpeaker5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton5)))
+                    .addComponent(btnSpeaker5)))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -187,29 +209,38 @@ public class encogNeuralNet extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(216, Short.MAX_VALUE))
+                .addContainerGap(220, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnSpeaker1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSpeaker1ActionPerformed
         // TODO add your handling code here:
-        jDialog1.setTitle("open speech dir");
+        jDialog1.setTitle("Open Speech Directory");
        jDialog1.setSize(582, 400);
         jDialog1.setVisible(true);
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnSpeaker1ActionPerformed
 
     private void jFileChooser2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFileChooser2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jFileChooser2ActionPerformed
 
+    private void btnSpeaker2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSpeaker2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnSpeaker2ActionPerformed
+
+    private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_formInternalFrameClosing
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
+    private javax.swing.JButton btnSpeaker1;
+    private javax.swing.JButton btnSpeaker2;
+    private javax.swing.JButton btnSpeaker3;
+    private javax.swing.JButton btnSpeaker4;
+    private javax.swing.JButton btnSpeaker5;
     private javax.swing.JDialog jDialog1;
     private javax.swing.JFileChooser jFileChooser2;
     private javax.swing.JPanel jPanel2;
