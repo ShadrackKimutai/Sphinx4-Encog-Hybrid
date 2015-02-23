@@ -4,6 +4,11 @@
  */
 package sphinx4.encognn.hybrid;
 
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFileChooser;
+
 /**
  *
  * @author Manu
@@ -25,10 +30,7 @@ public class encogNeuralNet extends javax.swing.JInternalFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
-        openDirDialog = new javax.swing.JDialog();
-        dirDialog = new javax.swing.JFileChooser();
         jPanel2 = new javax.swing.JPanel();
         lblSpeaker1 = new javax.swing.JLabel();
         lblSpeaker2 = new javax.swing.JLabel();
@@ -46,61 +48,23 @@ public class encogNeuralNet extends javax.swing.JInternalFrame {
         btnSpeaker4 = new javax.swing.JButton();
         btnSpeaker5 = new javax.swing.JButton();
 
-        openDirDialog.setAlwaysOnTop(true);
-        openDirDialog.setBackground(java.awt.Color.white);
-        openDirDialog.setIconImage(null);
-        openDirDialog.setLocationByPlatform(true);
-
-        dirDialog.setApproveButtonText("Select");
-        dirDialog.setDialogTitle("Open Folder for speaker 1");
-        dirDialog.setFileFilter(null);
-        dirDialog.setFileSelectionMode(javax.swing.JFileChooser.DIRECTORIES_ONLY);
-        dirDialog.setAutoscrolls(true);
-        dirDialog.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        dirDialog.setDoubleBuffered(true);
-        dirDialog.setMinimumSize(null);
-        dirDialog.setName("Select");
-        dirDialog.setSelectedFiles(null);
-
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, dirDialog, org.jdesktop.beansbinding.ELProperty.create("${currentDirectory}"), dirDialog, org.jdesktop.beansbinding.BeanProperty.create("selectedFile"));
-        bindingGroup.addBinding(binding);
-
-        dirDialog.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                dirDialogActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout openDirDialogLayout = new javax.swing.GroupLayout(openDirDialog.getContentPane());
-        openDirDialog.getContentPane().setLayout(openDirDialogLayout);
-        openDirDialogLayout.setHorizontalGroup(
-            openDirDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(dirDialog, javax.swing.GroupLayout.DEFAULT_SIZE, 536, Short.MAX_VALUE)
-        );
-        openDirDialogLayout.setVerticalGroup(
-            openDirDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(dirDialog, javax.swing.GroupLayout.DEFAULT_SIZE, 364, Short.MAX_VALUE)
-        );
-
-        openDirDialog.getAccessibleContext().setAccessibleParent(this);
-
         setClosable(true);
         setResizable(true);
         setTitle("Encog Neural Network");
         setDesktopIcon(getDesktopIcon());
         setDoubleBuffered(true);
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
-            public void internalFrameIconified(javax.swing.event.InternalFrameEvent evt) {
+            public void internalFrameDeiconified(javax.swing.event.InternalFrameEvent evt) {
             }
             public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
             }
-            public void internalFrameDeiconified(javax.swing.event.InternalFrameEvent evt) {
-            }
             public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
             }
-            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
+            public void internalFrameIconified(javax.swing.event.InternalFrameEvent evt) {
             }
             public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
             }
             public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
                 formInternalFrameClosing(evt);
@@ -232,43 +196,44 @@ public class encogNeuralNet extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(236, Short.MAX_VALUE))
+                .addContainerGap(240, Short.MAX_VALUE))
         );
-
-        bindingGroup.bind();
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSpeaker1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSpeaker1ActionPerformed
-        // TODO add your handling code here:
-         
-        openDirDialog.setTitle("Open Speech Directory");
-       openDirDialog.setSize(582, 400);
-        openDirDialog.setVisible(true);
+     
+ txtSpeaker1.setText(Dialog());
+    
     }//GEN-LAST:event_btnSpeaker1ActionPerformed
-
-    private void dirDialogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dirDialogActionPerformed
-        // TODO add your handling code here:
-      /* System.out.print(evt.getActionCommand());
-       if (evt.getActionCommand()== "CancelSelection"){
-           openDirDialog.setVisible(true);
-       } else {
-           txtSpeaker1.setText((String)dirDialog.getName());
-           openDirDialog.setVisible(false);
-       }
-       * 
-       */
+ private String Dialog(){
+      String  replyString = null;
+        final JFileChooser fc=new JFileChooser();
+      
+            fc.setDialogTitle("Open Speech Directory");
+            
+            fc.setDialogType(JFileChooser.OPEN_DIALOG);
+            fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         
-       // dirDialog.accept(true);
-        dirDialog.approveSelection();
-    }//GEN-LAST:event_dirDialogActionPerformed
-
+        
+            int returnVal=fc.showOpenDialog(this);
+            if (returnVal==1){
+               
+            }else{
+                try {
+                    System.out.println(returnVal);
+                    replyString = fc.getSelectedFile().getCanonicalFile().toString();
+                } catch (IOException ex) {
+                    Logger.getLogger(encogNeuralNet.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            return replyString;
+ }
     private void btnSpeaker2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSpeaker2ActionPerformed
         // TODO add your handling code here:
-        openDirDialog.setTitle("Open Speech Directory");
-        openDirDialog.setSize(582, 400);
-        openDirDialog.setVisible(true);        
+        txtSpeaker2.setText(Dialog());
+      
     }//GEN-LAST:event_btnSpeaker2ActionPerformed
 
     private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
@@ -278,23 +243,17 @@ public class encogNeuralNet extends javax.swing.JInternalFrame {
 
     private void btnSpeaker3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSpeaker3ActionPerformed
         // TODO add your handling code here:
-        openDirDialog.setTitle("Open Speech Directory");
-        openDirDialog.setSize(582, 400);
-        openDirDialog.setVisible(true);
+       txtSpeaker3.setText(Dialog());
     }//GEN-LAST:event_btnSpeaker3ActionPerformed
 
     private void btnSpeaker4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSpeaker4ActionPerformed
         // TODO add your handling code here:
-         openDirDialog.setTitle("Open Speech Directory");
-         openDirDialog.setSize(582, 400);
-         openDirDialog.setVisible(true);
+       txtSpeaker4.setText(Dialog());
     }//GEN-LAST:event_btnSpeaker4ActionPerformed
 
     private void btnSpeaker5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSpeaker5ActionPerformed
         // TODO add your handling code here:
-         openDirDialog.setTitle("Open Speech Directory");
-         openDirDialog.setSize(582, 400);
-         openDirDialog.setVisible(true);
+        txtSpeaker5.setText(Dialog());
     }//GEN-LAST:event_btnSpeaker5ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -303,19 +262,16 @@ public class encogNeuralNet extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnSpeaker3;
     private javax.swing.JButton btnSpeaker4;
     private javax.swing.JButton btnSpeaker5;
-    private javax.swing.JFileChooser dirDialog;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel lblSpeaker1;
     private javax.swing.JLabel lblSpeaker2;
     private javax.swing.JLabel lblSpeaker3;
     private javax.swing.JLabel lblSpeaker4;
     private javax.swing.JLabel lblSpeaker5;
-    private javax.swing.JDialog openDirDialog;
     private javax.swing.JTextField txtSpeaker1;
     private javax.swing.JTextField txtSpeaker2;
     private javax.swing.JTextField txtSpeaker3;
     private javax.swing.JTextField txtSpeaker4;
     private javax.swing.JTextField txtSpeaker5;
-    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 }
