@@ -9,8 +9,8 @@ package sphinx4.encognn.hybrid;
  * @author Manu
  */
 public class mainForm extends javax.swing.JFrame {
-    private boolean nnActive=false;
-    private boolean ssActive=false;
+    public boolean nnActive=false;
+    public boolean ssActive=false;
 
     /**
      * Creates new form mainForm
