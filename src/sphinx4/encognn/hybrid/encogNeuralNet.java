@@ -317,7 +317,7 @@ public class encogNeuralNet extends javax.swing.JInternalFrame {
                
             }else{
                 try {
-                    System.out.println(returnVal);
+                    //System.out.println(returnVal);
                     replyString = fc.getSelectedFile().getCanonicalFile().toString();
                 } catch (IOException ex) {
                     Logger.getLogger(encogNeuralNet.class.getName()).log(Level.SEVERE, null, ex);
@@ -342,7 +342,7 @@ public class encogNeuralNet extends javax.swing.JInternalFrame {
                
             }else{
                 try {
-                    System.out.println(returnVal);
+                    //System.out.println(returnVal);
                     replyString = fc.getSelectedFile().getCanonicalFile().toString();
                 } catch (IOException ex) {
                     Logger.getLogger(encogNeuralNet.class.getName()).log(Level.SEVERE, null, ex);
