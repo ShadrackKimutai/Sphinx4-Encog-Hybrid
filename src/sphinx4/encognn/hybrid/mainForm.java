@@ -4,6 +4,9 @@
  */
 package sphinx4.encognn.hybrid;
 
+import java.awt.Image;
+import java.awt.Toolkit;
+
 /**
  *
  * @author Manu

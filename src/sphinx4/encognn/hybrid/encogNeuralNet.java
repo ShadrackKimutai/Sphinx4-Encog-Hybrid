@@ -4,12 +4,16 @@
  */
 package sphinx4.encognn.hybrid;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
+import sphinx4.encognn.hybrid.util.FileProcessor;
 import sphinx4.encognn.hybrid.util.SpeechTagger;
 
 /**
@@ -380,6 +384,33 @@ public class encogNeuralNet extends javax.swing.JInternalFrame {
 
     private void btnBeginTrainingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBeginTrainingActionPerformed
         // TODO add your handling code here:
+        
+        String inputFile[]={txtSpeaker1.getText(),txtSpeaker2.getText(),txtSpeaker3.getText(),txtSpeaker4.getText(),txtSpeaker5.getText()};
+       
+        List<File> trainFiles = new ArrayList<>();
+    	for(int x =0;x<=inputFile.length-1 ;x++){
+          try
+          {
+              File dataFolder = new File(inputFile[x]);
+          
+            for (File dir : dataFolder.listFiles()) {
+                if (dir.isDirectory()) {
+        		for (File file : dir.listFiles())
+        			if (file.isFile())
+        				trainFiles.add(file);
+    		}
+    		else {
+    			if (dir.isFile())
+    				trainFiles.add(dir);
+    		}
+            }
+          }catch(Exception ex){
+                
+                   System.out.println(ex.getMessage()); 
+                }
+          }
+        
+                    
     }//GEN-LAST:event_btnBeginTrainingActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed

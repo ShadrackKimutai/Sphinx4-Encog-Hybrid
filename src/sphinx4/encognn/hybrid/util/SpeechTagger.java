@@ -17,7 +17,7 @@ import java.nio.file.Path;
  */
 public class SpeechTagger {
     public void  loadDict(Path dictPath){
-       
+       String  nameString=null;
         try (InputStream in = Files.newInputStream(dictPath);
                 
                  
@@ -26,13 +26,14 @@ public class SpeechTagger {
            
             while (((line = reader.readLine()) != null) ) {
            
-                 System.out.println(line);
-            
-                
+                 
+           nameString=line.substring(0,line.indexOf(" "));
+                System.out.println(nameString);
             
             }
         } catch (IOException x) {
             System.err.println(x);
         }
     }
+    
 }
