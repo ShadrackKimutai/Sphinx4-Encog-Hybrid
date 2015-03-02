@@ -28,13 +28,14 @@ public class NeuralNet {
     private int NUM_IN;
     public void neuralNet(List<File> trainFiles){
     MLDataSet trainingSet = new BasicMLDataSet();
-    	for (File f : trainFiles) {
-    		System.out.println(f.getAbsolutePath());
+    FileProcessor fp=null;
+    	for (File file : trainFiles) {
+    		System.out.println(file.getAbsolutePath());
     		try {
-    			List<double[]> data = FileProcessor.processFile(f);
+    			List<double[]> data = fp.processFile(file);
     			MLData mldataIn = new BasicMLData(data.get(0));
     			double[] out = new double[NUM_OUT];
-				Integer index = new Integer(SpeechTagger.getLabel(f));
+				Integer index = new Integer(SpeechTagger.getLabel(file));
 				out[index] = 1.;
 				MLData mldataout = new BasicMLData(out);
 				trainingSet.add(mldataIn, mldataout);
