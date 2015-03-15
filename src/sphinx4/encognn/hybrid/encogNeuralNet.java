@@ -37,18 +37,21 @@ import sphinx4.encognn.hybrid.util.Labeler;
  * @author Manu
  */
 public class encogNeuralNet extends javax.swing.JInternalFrame {
-    private int NUM_OUT;
-    private int NUM_IN;
+    private int INPUT_NODES;
+    private int OUTPUT_NODES;
     private List<File> files;
-  
+    double ACCURACY;
+    int HIDDEN_NODES;
 
     /**
      * Creates new form encogNeuralNet
      */
     public encogNeuralNet() {
         initComponents();
-        this.NUM_IN=13;
-        this.NUM_OUT=10;
+        this.INPUT_NODES=13;
+        this.OUTPUT_NODES=10;
+       
+        
     }
 
     /**
@@ -86,7 +89,7 @@ public class encogNeuralNet extends javax.swing.JInternalFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         txtOutput = new javax.swing.JTextArea();
         jPanel4 = new javax.swing.JPanel();
-        numofnn = new javax.swing.JSpinner();
+        numofhnodes = new javax.swing.JSpinner();
         jLabel2 = new javax.swing.JLabel();
         errorSpinner = new javax.swing.JSpinner();
         jLabel3 = new javax.swing.JLabel();
@@ -296,7 +299,7 @@ public class encogNeuralNet extends javax.swing.JInternalFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 214, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)
                     .addComponent(btnBeginTraining, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -304,11 +307,14 @@ public class encogNeuralNet extends javax.swing.JInternalFrame {
 
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Network Properties"));
 
-        numofnn.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        numofhnodes.setModel(new javax.swing.SpinnerNumberModel(13, 13, 130, 13));
+        numofhnodes.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
-        jLabel2.setText("Layers");
+        jLabel2.setText("Hidden Layer Nodes");
 
+        errorSpinner.setModel(new javax.swing.SpinnerListModel(new String[] {"0.5", "0.1", "0.05", "0.01", "0.005", "0.001", "0.0005", "0.0001"}));
         errorSpinner.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        errorSpinner.setOpaque(false);
 
         jLabel3.setText("Error");
 
@@ -317,26 +323,24 @@ public class encogNeuralNet extends javax.swing.JInternalFrame {
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(42, 42, 42)
+                .addGap(28, 28, 28)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel3))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(errorSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 305, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(numofnn, javax.swing.GroupLayout.PREFERRED_SIZE, 305, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(errorSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 319, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(numofhnodes))
+                .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel2))
-                    .addComponent(numofnn, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(numofhnodes, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(errorSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -344,7 +348,7 @@ public class encogNeuralNet extends javax.swing.JInternalFrame {
                 .addGap(5, 5, 5))
         );
 
-        jPanel4Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {errorSpinner, numofnn});
+        jPanel4Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {errorSpinner, numofhnodes});
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -466,12 +470,13 @@ public class encogNeuralNet extends javax.swing.JInternalFrame {
 
     private void btnBeginTrainingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBeginTrainingActionPerformed
         // TODO add your handling code here:
-        FileProcessor fp=new FileProcessor();
-       String inputAudioFiles[]={txtSpeaker1.getText(),txtSpeaker2.getText(),txtSpeaker3.getText(),txtSpeaker4.getText(),txtSpeaker5.getText()};
+            FileProcessor fp=new FileProcessor();
+            String inputAudioFiles[]={txtSpeaker1.getText(),txtSpeaker2.getText(),txtSpeaker3.getText(),txtSpeaker4.getText(),txtSpeaker5.getText()};
       
-        files=fp.wavFileProcessor(inputAudioFiles);
-      
-         start();
+            files=fp.wavFileProcessor(inputAudioFiles);
+            ACCURACY=Double.valueOf(errorSpinner.getValue().toString());
+            HIDDEN_NODES=Integer.valueOf(numofhnodes.getValue().toString());
+            start();
 		
             
                     
@@ -497,13 +502,13 @@ private void start(){
 	FeatureExtractor fe=new FeatureExtractor();
                 MLDataSet trainingSet = new BasicMLDataSet();
     		for (File f : files) {
-    			publish(f.getAbsolutePath()+"\n");
+    			txtOutput.append(f.getAbsolutePath()+"\n");
     		
 				List<double[]> data;
 				try {
 					data = fe.fileProcessor(f);
 					MLData mldataIn = new BasicMLData(data.get(0));
-					double[] out = new double[NUM_OUT];
+					double[] out = new double[OUTPUT_NODES];
 					Integer index = new Integer(Labeler.getLabel(f));
 					//System.out.println(index+""+data.get(0));
 					out[index] = 1.;
@@ -516,10 +521,11 @@ private void start(){
     	}
     	
     		BasicNetwork network = new BasicNetwork();
-    		network.addLayer(new BasicLayer(NUM_IN));
-    		network.addLayer(new BasicLayer(new ActivationSigmoid(), true, 4 * NUM_IN));
+    		network.addLayer(new BasicLayer(INPUT_NODES));
+                
+    		network.addLayer(new BasicLayer(new ActivationSigmoid(), true, HIDDEN_NODES));
     		//network.addLayer(new BasicLayer(new ActivationSigmoid(), true, 2 * NUM_IN));
-    		network.addLayer(new BasicLayer(new ActivationSigmoid(), false, NUM_OUT));
+    		network.addLayer(new BasicLayer(new ActivationSigmoid(), false, OUTPUT_NODES));
     		network.getStructure().finalizeStructure();
     		network.reset();
      
@@ -527,26 +533,28 @@ private void start(){
     		ResilientPropagation train = new ResilientPropagation(network, trainingSet);
      
     		//System.out.println("Training Set: "+ trainingSet.size());
-              txtOutput.append("Training Set: "+trainingSet.size()+"\n");
+                txtOutput.append("**********************************************************************\n");
+              txtOutput.append("Training Set: "+trainingSet.size()+" Input Nodes:"+INPUT_NODES+" Hidden Nodes:"+HIDDEN_NODES+" Output Nodes:"+OUTPUT_NODES+" Train to accuracy:"+ACCURACY+"\n");
                 
-                txtOutput.append("================================================Begining Training\n");
+                txtOutput.append("****************************************************************Begining Training\n");
     		int epoch = 1;
      
     		do {
     			train.iteration();
     			//System.out.println("Epoch:" + epoch + " Error-->" + train.getError());
-                        txtOutput.append("Epoch:" + epoch + " Error-->" + train.getError()+"\n");
+                        txtOutput.append("Epoch:" + epoch + " Error--->" + train.getError()+"\n");
                        // publish("Epoch:" + epoch + " Error-->" + train.getError()+"\n");
     			epoch++;
-    		} while(train.getError() > 0.001);
+    		} while(train.getError() > ACCURACY);
     		train.finishTraining();
-     
+                txtOutput.append("****************************************************************Begin Testing");
+             
     		// test the neural network
-    		txtOutput.append("Neural Network testing \n");
+    		
     		for(MLDataPair pair: trainingSet ) {
     			final MLData output = network.compute(pair.getInput());
     			//System.out.println("actual-->" + Labeler.getWord(output) + ", ideal-->" + Labeler.getWord(pair.getIdeal()));
-                      txtOutput.append("\nactual-->" + Labeler.getWord(output) + ", ideal-->" + Labeler.getWord(pair.getIdeal()));
+                      txtOutput.append("\nactual--->" + Labeler.getWord(output) + ", ideal--->" + Labeler.getWord(pair.getIdeal()));
                 }
     		
      		Encog.getInstance().shutdown();  
@@ -556,7 +564,7 @@ private void start(){
 
             @Override
             protected void done() {
-                txtOutput.append("\nCompleted training and testing");
+                txtOutput.append("\n****************************************************************Completed training and testing");
             }
 
             @Override
@@ -594,7 +602,7 @@ private void start(){
     private javax.swing.JLabel lblSpeaker3;
     private javax.swing.JLabel lblSpeaker4;
     private javax.swing.JLabel lblSpeaker5;
-    private javax.swing.JSpinner numofnn;
+    private javax.swing.JSpinner numofhnodes;
     private javax.swing.JTextField txtDirectoryPath;
     public javax.swing.JTextArea txtOutput;
     private javax.swing.JTextField txtSpeaker1;
