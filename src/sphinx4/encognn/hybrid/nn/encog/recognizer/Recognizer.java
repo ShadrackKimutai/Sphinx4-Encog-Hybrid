@@ -4,11 +4,23 @@
 package sphinx4.encognn.hybrid.nn.encog.recognizer;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.List;
 
+import org.encog.Encog;
+import org.encog.engine.network.activation.ActivationSigmoid;
+import org.encog.ml.data.MLData;
+import org.encog.ml.data.MLDataPair;
+import org.encog.ml.data.MLDataSet;
+import org.encog.ml.data.basic.BasicMLData;
+import org.encog.ml.data.basic.BasicMLDataSet;
+import org.encog.neural.networks.BasicNetwork;
+import org.encog.neural.networks.layers.BasicLayer;
+import org.encog.neural.networks.training.propagation.resilient.ResilientPropagation;
+import sphinx4.encognn.hybrid.util.FeatureExtractor;
+import sphinx4.encognn.hybrid.util.Labeler;
 
-//import ac.mu.edu.sphinx4neuralnethybrid.neuralnet.util.FeatureExtractor;
-//import ac.mu.edu.sphinx4neuralnethybrid.neuralnet.util.Labeler;
+
 
 /**
  * @author Manu
@@ -28,7 +40,7 @@ public class Recognizer {
 		// TODO Auto-generated constructor stub
 	}
 	public void recognizer(List<File> files){
-            /*
+            
 FeatureExtractor fe=new FeatureExtractor();
 		MLDataSet trainingSet = new BasicMLDataSet();
     		for (File f : files) {
@@ -62,6 +74,7 @@ FeatureExtractor fe=new FeatureExtractor();
     		ResilientPropagation train = new ResilientPropagation(network, trainingSet);
      
     		System.out.println("Training Set: "+ trainingSet.size());
+                
     		int epoch = 1;
      
     		do {
@@ -79,7 +92,7 @@ FeatureExtractor fe=new FeatureExtractor();
     		}
     		
      		Encog.getInstance().shutdown();  
-     		*/
+     		
             
            
 	}

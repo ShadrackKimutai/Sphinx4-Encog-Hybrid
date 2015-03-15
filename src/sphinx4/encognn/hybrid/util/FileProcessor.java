@@ -45,6 +45,31 @@ public class FileProcessor   {
     	}
     	return trainFiles;
 	}
-	
+	public List<File> wavFileProcessor(String [] SPEECH_FOLDERS){
+         List<File> trainFiles = new ArrayList<>();
+    	 for(int x =0;x<=SPEECH_FOLDERS.length-1 ;x++){
+          try
+          {
+              File dataFolder = new File(SPEECH_FOLDERS[x]);
+        
+            for (File dir : dataFolder.listFiles()) {
+                
+                if (dir.isDirectory()) {
+        		for (File file : dir.listFiles())
+        			if (file.isFile())
+        				trainFiles.add(file);
+    		}
+    		else {
+    			if (dir.isFile())
+    				trainFiles.add(dir);
+    		}
+            }
+          }catch(Exception ex){
+                
+                   System.out.println("Exception:"+ex.getMessage()); 
+                }
+          }
+          return trainFiles;
+        }
 	
 }

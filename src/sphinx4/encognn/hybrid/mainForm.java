@@ -6,6 +6,7 @@ package sphinx4.encognn.hybrid;
 
 import java.awt.Image;
 import java.awt.Toolkit;
+import javax.swing.SwingUtilities;
 
 /**
  *
@@ -150,11 +151,11 @@ public class mainForm extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 775, Short.MAX_VALUE)
+            .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 1088, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 538, Short.MAX_VALUE)
+            .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 625, Short.MAX_VALUE)
         );
 
         pack();
@@ -187,20 +188,35 @@ public class mainForm extends javax.swing.JFrame {
 
     private void mnuEncogNNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuEncogNNActionPerformed
         // TODO add your handling code here:
-       encogNeuralNet n1=new encogNeuralNet();
-       if (nnActive==false){
+        SwingUtilities.invokeLater(new Runnable(){
+
+            @Override
+            public void run() {
+                encogNeuralNet encogNeuralNet = new encogNeuralNet();
+                desktopPane.add(encogNeuralNet);
+                encogNeuralNet.setVisible(true);
+            }
+            
+            
+        });
+       /*
+        *
+        encogNeuralNet n1=new encogNeuralNet();
+        if (nnActive==false){
         
         desktopPane.add(n1);
         
         n1.setVisible(true);
         
         nnActive=true;
+       
         
         }
        else{
         
        }
-        
+         * 
+        */
     }//GEN-LAST:event_mnuEncogNNActionPerformed
 
     /**
