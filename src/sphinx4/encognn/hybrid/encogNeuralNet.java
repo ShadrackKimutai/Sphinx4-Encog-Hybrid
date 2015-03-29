@@ -27,6 +27,7 @@ import org.encog.ml.data.basic.BasicMLDataSet;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.layers.BasicLayer;
 import org.encog.neural.networks.training.propagation.resilient.ResilientPropagation;
+import sphinx4.encognn.hybrid.nn.encog.recognizer.Recognizer;
 import sphinx4.encognn.hybrid.util.FeatureExtractor;
 import sphinx4.encognn.hybrid.util.FileProcessor;
 import sphinx4.encognn.hybrid.util.Labeler;
@@ -88,6 +89,7 @@ public class encogNeuralNet extends javax.swing.JInternalFrame {
         btnBeginTraining = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         txtOutput = new javax.swing.JTextArea();
+        btnclear = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         numofhnodes = new javax.swing.JSpinner();
         jLabel2 = new javax.swing.JLabel();
@@ -95,26 +97,28 @@ public class encogNeuralNet extends javax.swing.JInternalFrame {
         jLabel3 = new javax.swing.JLabel();
 
         setClosable(true);
+        setMaximizable(true);
         setResizable(true);
         setTitle("Encog Neural Network");
         setDesktopIcon(getDesktopIcon());
         setDoubleBuffered(true);
         setLayer(1);
+        setOpaque(true);
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
-            public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
-                formInternalFrameClosing(evt);
-            }
-            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
-            }
-            public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
-            }
             public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
             }
             public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
             }
+            public void internalFrameIconified(javax.swing.event.InternalFrameEvent evt) {
+            }
             public void internalFrameDeiconified(javax.swing.event.InternalFrameEvent evt) {
             }
-            public void internalFrameIconified(javax.swing.event.InternalFrameEvent evt) {
+            public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
+                formInternalFrameClosing(evt);
+            }
+            public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
             }
         });
 
@@ -244,13 +248,13 @@ public class encogNeuralNet extends javax.swing.JInternalFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(24, 24, 24)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtDirectoryPath, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtDirectoryPath)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton1)
-                .addGap(5, 5, 5))
+                .addGap(1, 1, 1))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -279,6 +283,13 @@ public class encogNeuralNet extends javax.swing.JInternalFrame {
         jScrollPane1.setViewportView(txtOutput);
         txtOutput.getAccessibleContext().setAccessibleName("");
 
+        btnclear.setText("Clear");
+        btnclear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnclearActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -287,22 +298,25 @@ public class encogNeuralNet extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jProgressBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addContainerGap())
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(btnBeginTraining)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btnBeginTraining, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnclear, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1))))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 808, Short.MAX_VALUE))
+                    .addComponent(jProgressBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)
-                    .addComponent(btnBeginTraining, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 223, Short.MAX_VALUE)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(btnBeginTraining, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnclear, javax.swing.GroupLayout.DEFAULT_SIZE, 48, Short.MAX_VALUE)))
                 .addGap(18, 18, 18)
-                .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Network Properties"));
@@ -323,24 +337,23 @@ public class encogNeuralNet extends javax.swing.JInternalFrame {
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(28, 28, 28)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel2)
                     .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(errorSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 319, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(numofhnodes))
-                .addContainerGap())
+                    .addComponent(errorSpinner)
+                    .addComponent(numofhnodes)))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(numofhnodes, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel2)
+                        .addGap(12, 12, 12)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(errorSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -362,10 +375,10 @@ public class encogNeuralNet extends javax.swing.JInternalFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addGap(0, 0, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addGap(0, 0, 0))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -477,6 +490,11 @@ public class encogNeuralNet extends javax.swing.JInternalFrame {
             ACCURACY=Double.valueOf(errorSpinner.getValue().toString());
             HIDDEN_NODES=Integer.valueOf(numofhnodes.getValue().toString());
             start();
+            /*
+             * Recognizer rec=new Recognizer();
+            rec.recognizer(files);
+            * 
+            */
 		
             
                     
@@ -488,6 +506,13 @@ public class encogNeuralNet extends javax.swing.JInternalFrame {
         txtDirectoryPath.setText(fileDialog());
         initDict();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void btnclearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnclearActionPerformed
+        // TODO add your handling code here:
+        txtOutput.selectAll();
+        txtOutput.replaceSelection("");
+        txtOutput.removeAll();
+    }//GEN-LAST:event_btnclearActionPerformed
 private void initDict(){
     Path dirPath=Paths.get(txtDirectoryPath.getText());
         //SpeechTagger sT=new SpeechTagger();
@@ -534,7 +559,7 @@ private void start(){
      
     		//System.out.println("Training Set: "+ trainingSet.size());
                 txtOutput.append("**********************************************************************\n");
-              txtOutput.append("Training Set: "+trainingSet.size()+" Input Nodes:"+INPUT_NODES+" Hidden Nodes:"+HIDDEN_NODES+" Output Nodes:"+OUTPUT_NODES+" Train to accuracy:"+ACCURACY+"\n");
+             txtOutput.append("Training Set: "+trainingSet.size()+" Input Nodes:"+INPUT_NODES+" Hidden Nodes:"+HIDDEN_NODES+" Output Nodes:"+OUTPUT_NODES+" Train to accuracy:"+ACCURACY+"\n");
                 
                 txtOutput.append("****************************************************************Begining Training\n");
     		int epoch = 1;
@@ -542,12 +567,11 @@ private void start(){
     		do {
     			train.iteration();
     			//System.out.println("Epoch:" + epoch + " Error-->" + train.getError());
-                        txtOutput.append("Epoch:" + epoch + " Error--->" + train.getError()+"\n");
-                       // publish("Epoch:" + epoch + " Error-->" + train.getError()+"\n");
+                       txtOutput.append("Epoch:" + epoch + " Error-->" + train.getError()+"\n");
     			epoch++;
     		} while(train.getError() > ACCURACY);
     		train.finishTraining();
-                txtOutput.append("****************************************************************Begin Testing");
+               System.out.println("****************************************************************Begin Testing");
              
     		// test the neural network
     		
@@ -564,7 +588,7 @@ private void start(){
 
             @Override
             protected void done() {
-                txtOutput.append("\n****************************************************************Completed training and testing");
+               txtOutput.append("\n****************************************************************Completed training and testing\n");
             }
 
             @Override
@@ -586,6 +610,7 @@ private void start(){
     private javax.swing.JButton btnSpeaker3;
     private javax.swing.JButton btnSpeaker4;
     private javax.swing.JButton btnSpeaker5;
+    private javax.swing.JButton btnclear;
     private javax.swing.JSpinner errorSpinner;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;

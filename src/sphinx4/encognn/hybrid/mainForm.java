@@ -4,8 +4,6 @@
  */
 package sphinx4.encognn.hybrid;
 
-import java.awt.Image;
-import java.awt.Toolkit;
 import javax.swing.SwingUtilities;
 
 /**
@@ -13,8 +11,7 @@ import javax.swing.SwingUtilities;
  * @author Manu
  */
 public class mainForm extends javax.swing.JFrame {
-    public boolean nnActive=false;
-    public boolean ssActive=false;
+    private boolean ssActive=false;
 
     /**
      * Creates new form mainForm
@@ -34,11 +31,14 @@ public class mainForm extends javax.swing.JFrame {
 
         desktopPane = new javax.swing.JDesktopPane();
         menuBar = new javax.swing.JMenuBar();
-        mnuInitiate = new javax.swing.JMenu();
-        mnuSphinx = new javax.swing.JMenuItem();
-        mnuEncogNN = new javax.swing.JMenuItem();
-        mnuSeparator = new javax.swing.JPopupMenu.Separator();
-        mnuExit = new javax.swing.JMenuItem();
+        fileMenu = new javax.swing.JMenu();
+        mnuTrain = new javax.swing.JMenu();
+        mnuTrain_Sphinx4 = new javax.swing.JMenuItem();
+        mnuTrain_NN = new javax.swing.JMenuItem();
+        jSeparator2 = new javax.swing.JPopupMenu.Separator();
+        saveMenuItem = new javax.swing.JMenuItem();
+        jSeparator1 = new javax.swing.JPopupMenu.Separator();
+        exitMenuItem = new javax.swing.JMenuItem();
         editMenu = new javax.swing.JMenu();
         cutMenuItem = new javax.swing.JMenuItem();
         copyMenuItem = new javax.swing.JMenuItem();
@@ -47,61 +47,58 @@ public class mainForm extends javax.swing.JFrame {
         helpMenu = new javax.swing.JMenu();
         contentMenuItem = new javax.swing.JMenuItem();
         aboutMenuItem = new javax.swing.JMenuItem();
-        jMenuItem1 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMaximizedBounds(new java.awt.Rectangle(0, 0, 0, 0));
+        setPreferredSize(new java.awt.Dimension(1024, 756));
 
-        desktopPane.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        desktopPane.setDoubleBuffered(true);
+        desktopPane.setBackground(new java.awt.Color(240, 240, 240));
 
-        menuBar.setBackground(new java.awt.Color(215, 228, 242));
-        menuBar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        menuBar.setDoubleBuffered(true);
+        fileMenu.setMnemonic('f');
+        fileMenu.setText("File");
 
-        mnuInitiate.setMnemonic('I');
-        mnuInitiate.setText("Initiate");
-        mnuInitiate.addActionListener(new java.awt.event.ActionListener() {
+        mnuTrain.setText("Train");
+
+        mnuTrain_Sphinx4.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.SHIFT_MASK));
+        mnuTrain_Sphinx4.setText("Sphinx4");
+        mnuTrain_Sphinx4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mnuInitiateActionPerformed(evt);
+                mnuTrain_Sphinx4ActionPerformed(evt);
             }
         });
+        mnuTrain.add(mnuTrain_Sphinx4);
 
-        mnuSphinx.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
-        mnuSphinx.setMnemonic('S');
-        mnuSphinx.setLabel("Sphinx");
-        mnuSphinx.addActionListener(new java.awt.event.ActionListener() {
+        mnuTrain_NN.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.SHIFT_MASK));
+        mnuTrain_NN.setText("Neural Network");
+        mnuTrain_NN.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mnuSphinxActionPerformed(evt);
+                mnuTrain_NNActionPerformed(evt);
             }
         });
-        mnuInitiate.add(mnuSphinx);
+        mnuTrain.add(mnuTrain_NN);
 
-        mnuEncogNN.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.SHIFT_MASK));
-        mnuEncogNN.setMnemonic('N');
-        mnuEncogNN.setDoubleBuffered(true);
-        mnuEncogNN.setLabel("Neural Network");
-        mnuEncogNN.addActionListener(new java.awt.event.ActionListener() {
+        fileMenu.add(mnuTrain);
+        fileMenu.add(jSeparator2);
+
+        saveMenuItem.setMnemonic('s');
+        saveMenuItem.setText("Load");
+        saveMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mnuEncogNNActionPerformed(evt);
+                saveMenuItemActionPerformed(evt);
             }
         });
-        mnuInitiate.add(mnuEncogNN);
-        mnuEncogNN.getAccessibleContext().setAccessibleName("");
+        fileMenu.add(saveMenuItem);
+        fileMenu.add(jSeparator1);
 
-        mnuInitiate.add(mnuSeparator);
-
-        mnuExit.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, java.awt.event.InputEvent.ALT_MASK));
-        mnuExit.setMnemonic('x');
-        mnuExit.setText("Exit");
-        mnuExit.addActionListener(new java.awt.event.ActionListener() {
+        exitMenuItem.setMnemonic('x');
+        exitMenuItem.setText("Exit");
+        exitMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mnuExitActionPerformed(evt);
+                exitMenuItemActionPerformed(evt);
             }
         });
-        mnuInitiate.add(mnuExit);
+        fileMenu.add(exitMenuItem);
 
-        menuBar.add(mnuInitiate);
+        menuBar.add(fileMenu);
 
         editMenu.setMnemonic('e');
         editMenu.setText("Edit");
@@ -135,14 +132,6 @@ public class mainForm extends javax.swing.JFrame {
         aboutMenuItem.setText("About");
         helpMenu.add(aboutMenuItem);
 
-        jMenuItem1.setText("ShowChild");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
-            }
-        });
-        helpMenu.add(jMenuItem1);
-
         menuBar.add(helpMenu);
 
         setJMenuBar(menuBar);
@@ -151,26 +140,25 @@ public class mainForm extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 1088, Short.MAX_VALUE)
+            .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 820, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 625, Short.MAX_VALUE)
+            .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 403, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void mnuExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuExitActionPerformed
+    private void exitMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitMenuItemActionPerformed
         System.exit(0);
-    }//GEN-LAST:event_mnuExitActionPerformed
+    }//GEN-LAST:event_exitMenuItemActionPerformed
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+    private void saveMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveMenuItemActionPerformed
         // TODO add your handling code here:
-       
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
+    }//GEN-LAST:event_saveMenuItemActionPerformed
 
-    private void mnuSphinxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuSphinxActionPerformed
+    private void mnuTrain_Sphinx4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuTrain_Sphinx4ActionPerformed
         // TODO add your handling code here:
         if (ssActive==false){
             
@@ -179,16 +167,11 @@ public class mainForm extends javax.swing.JFrame {
         sph.setVisible(true);
         ssActive=true;
         }
-    }//GEN-LAST:event_mnuSphinxActionPerformed
+    }//GEN-LAST:event_mnuTrain_Sphinx4ActionPerformed
 
-    private void mnuInitiateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuInitiateActionPerformed
+    private void mnuTrain_NNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuTrain_NNActionPerformed
         // TODO add your handling code here:
-   
-    }//GEN-LAST:event_mnuInitiateActionPerformed
-
-    private void mnuEncogNNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuEncogNNActionPerformed
-        // TODO add your handling code here:
-        SwingUtilities.invokeLater(new Runnable(){
+         SwingUtilities.invokeLater(new Runnable(){
 
             @Override
             public void run() {
@@ -217,7 +200,7 @@ public class mainForm extends javax.swing.JFrame {
        }
          * 
         */
-    }//GEN-LAST:event_mnuEncogNNActionPerformed
+    }//GEN-LAST:event_mnuTrain_NNActionPerformed
 
     /**
      * @param args the command line arguments
@@ -268,14 +251,16 @@ public class mainForm extends javax.swing.JFrame {
     private javax.swing.JMenuItem deleteMenuItem;
     private javax.swing.JDesktopPane desktopPane;
     private javax.swing.JMenu editMenu;
+    private javax.swing.JMenuItem exitMenuItem;
+    private javax.swing.JMenu fileMenu;
     private javax.swing.JMenu helpMenu;
-    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JPopupMenu.Separator jSeparator1;
+    private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JMenuBar menuBar;
-    private javax.swing.JMenuItem mnuEncogNN;
-    private javax.swing.JMenuItem mnuExit;
-    private javax.swing.JMenu mnuInitiate;
-    private javax.swing.JPopupMenu.Separator mnuSeparator;
-    private javax.swing.JMenuItem mnuSphinx;
+    private javax.swing.JMenu mnuTrain;
+    private javax.swing.JMenuItem mnuTrain_NN;
+    private javax.swing.JMenuItem mnuTrain_Sphinx4;
     private javax.swing.JMenuItem pasteMenuItem;
+    private javax.swing.JMenuItem saveMenuItem;
     // End of variables declaration//GEN-END:variables
 }
