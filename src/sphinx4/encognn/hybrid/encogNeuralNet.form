@@ -331,7 +331,7 @@
                       <Group type="102" attributes="0">
                           <Component id="btnBeginTraining" min="-2" pref="169" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="btnclear" pref="48" max="32767" attributes="0"/>
+                          <Component id="btnclear" pref="56" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -453,13 +453,26 @@
             <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
               <SpinnerModel type="list">
                 <ListItem value="0.5"/>
+                <ListItem value="0.375"/>
+                <ListItem value="0.25"/>
+                <ListItem value="0.175"/>
                 <ListItem value="0.1"/>
+                <ListItem value="0.0875"/>
+                <ListItem value="0.075"/>
+                <ListItem value="0.0625"/>
                 <ListItem value="0.05"/>
+                <ListItem value="0.0375"/>
+                <ListItem value="0.025"/>
+                <ListItem value="0.0125"/>
                 <ListItem value="0.01"/>
+                <ListItem value="0.00875"/>
+                <ListItem value="0.0075"/>
+                <ListItem value="0.00625"/>
                 <ListItem value="0.005"/>
+                <ListItem value="0.00375"/>
+                <ListItem value="0.0025"/>
+                <ListItem value="0.00125"/>
                 <ListItem value="0.001"/>
-                <ListItem value="0.0005"/>
-                <ListItem value="0.0001"/>
               </SpinnerModel>
             </Property>
             <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">

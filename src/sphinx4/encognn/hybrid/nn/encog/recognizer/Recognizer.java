@@ -54,6 +54,7 @@ FeatureExtractor fe=new FeatureExtractor();
 					Integer index = new Integer(Labeler.getLabel(f));
 					//System.out.println(index+""+data.get(0));
 					out[index] = 1.;
+                                        System.out.println(out.toString());
 					MLData mldataout = new BasicMLData(out);
 					trainingSet.add(mldataIn, mldataout);
 				} catch (FileNotFoundException e) {

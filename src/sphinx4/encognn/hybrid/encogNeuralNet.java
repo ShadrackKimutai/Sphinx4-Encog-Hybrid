@@ -105,20 +105,20 @@ public class encogNeuralNet extends javax.swing.JInternalFrame {
         setLayer(1);
         setOpaque(true);
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
-            public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
+            public void internalFrameDeiconified(javax.swing.event.InternalFrameEvent evt) {
             }
-            public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
+            public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
             }
             public void internalFrameIconified(javax.swing.event.InternalFrameEvent evt) {
             }
-            public void internalFrameDeiconified(javax.swing.event.InternalFrameEvent evt) {
+            public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
             }
             public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
                 formInternalFrameClosing(evt);
             }
-            public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
-            }
             public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
             }
         });
 
@@ -314,7 +314,7 @@ public class encogNeuralNet extends javax.swing.JInternalFrame {
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(btnBeginTraining, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnclear, javax.swing.GroupLayout.DEFAULT_SIZE, 48, Short.MAX_VALUE)))
+                        .addComponent(btnclear, javax.swing.GroupLayout.DEFAULT_SIZE, 52, Short.MAX_VALUE)))
                 .addGap(18, 18, 18)
                 .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -326,7 +326,7 @@ public class encogNeuralNet extends javax.swing.JInternalFrame {
 
         jLabel2.setText("Hidden Layer Nodes");
 
-        errorSpinner.setModel(new javax.swing.SpinnerListModel(new String[] {"0.5", "0.1", "0.05", "0.01", "0.005", "0.001", "0.0005", "0.0001"}));
+        errorSpinner.setModel(new javax.swing.SpinnerListModel(new String[] {"0.5", "0.375", "0.25", "0.175", "0.1", "0.0875", "0.075", "0.0625", "0.05", "0.0375", "0.025", "0.0125", "0.01", "0.00875", "0.0075", "0.00625", "0.005", "0.00375", "0.0025", "0.00125", "0.001"}));
         errorSpinner.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         errorSpinner.setOpaque(false);
 
@@ -522,10 +522,24 @@ private void start(){
     SwingWorker<Void,String> worker=new SwingWorker<Void,String>(){
 
             @Override
+            protected void done() {
+                super.done();
+            }
+
+            @Override
+            protected void process(List<String> chunks) {
+                super.process(chunks);
+            }
+        
+/*
+ * 
+ 
+            @Override
             protected Void doInBackground() throws Exception {
                
 	FeatureExtractor fe=new FeatureExtractor();
                 MLDataSet trainingSet = new BasicMLDataSet();
+                int i = 0;
     		for (File f : files) {
     			txtOutput.append(f.getAbsolutePath()+"\n");
     		
@@ -535,14 +549,20 @@ private void start(){
 					MLData mldataIn = new BasicMLData(data.get(0));
 					double[] out = new double[OUTPUT_NODES];
 					Integer index = new Integer(Labeler.getLabel(f));
-					//System.out.println(index+""+data.get(0));
-					out[index] = 1.;
+					
+                                      System.out.println(index);
+                        
+					out[i] = 1.;
+                                       
 					MLData mldataout = new BasicMLData(out);
 					trainingSet.add(mldataIn, mldataout);
 				} catch (FileNotFoundException e) {
 					// TODO Auto-generated catch block
-					//e.printStackTrace();
-				}
+					e.printStackTrace();
+				} catch (Exception e){
+                                    e.printStackTrace();
+                                }
+                                i++;
     	}
     	
     		BasicNetwork network = new BasicNetwork();
@@ -574,30 +594,37 @@ private void start(){
                System.out.println("****************************************************************Begin Testing");
              
     		// test the neural network
-    		
+    		int WER=0;
     		for(MLDataPair pair: trainingSet ) {
     			final MLData output = network.compute(pair.getInput());
     			//System.out.println("actual-->" + Labeler.getWord(output) + ", ideal-->" + Labeler.getWord(pair.getIdeal()));
-                      txtOutput.append("\nactual--->" + Labeler.getWord(output) + ", ideal--->" + Labeler.getWord(pair.getIdeal()));
+                      //txtOutput.append("\nactual--->" + Labeler.getWord(output) + ", ideal--->" + Labeler.getWord(pair.getIdeal()));
+             for(double x:pair.getInputArray()){
+                       //System.out.println(x);
                 }
     		
      		Encog.getInstance().shutdown();  
      		
                 return null;
-            }
+            };
 
+            
             @Override
-            protected void done() {
+            protected Void done() {
                txtOutput.append("\n****************************************************************Completed training and testing\n");
-            }
+            };
 
             @Override
-            protected void process(List<String> chunks) {
+            protected Void process(List<String> chunks) {
                 String value=chunks.get(chunks.size()-1);
                 txtOutput.append(value);
-            }
+            };
+*/
 
-           
+            @Override
+            protected Void doInBackground() throws Exception {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
 
 
     };

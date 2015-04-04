@@ -5,6 +5,7 @@
 package sphinx4.encognn.hybrid;
 
 import javax.swing.SwingUtilities;
+import sphinx4.encognn.hybrid.dict.Dictionary;
 
 /**
  *
@@ -41,9 +42,6 @@ public class mainForm extends javax.swing.JFrame {
         exitMenuItem = new javax.swing.JMenuItem();
         editMenu = new javax.swing.JMenu();
         cutMenuItem = new javax.swing.JMenuItem();
-        copyMenuItem = new javax.swing.JMenuItem();
-        pasteMenuItem = new javax.swing.JMenuItem();
-        deleteMenuItem = new javax.swing.JMenuItem();
         helpMenu = new javax.swing.JMenu();
         contentMenuItem = new javax.swing.JMenuItem();
         aboutMenuItem = new javax.swing.JMenuItem();
@@ -100,24 +98,17 @@ public class mainForm extends javax.swing.JFrame {
 
         menuBar.add(fileMenu);
 
-        editMenu.setMnemonic('e');
-        editMenu.setText("Edit");
+        editMenu.setMnemonic('g');
+        editMenu.setText("Generate");
 
-        cutMenuItem.setMnemonic('t');
-        cutMenuItem.setText("Cut");
+        cutMenuItem.setMnemonic('d');
+        cutMenuItem.setText("Dictionary");
+        cutMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cutMenuItemActionPerformed(evt);
+            }
+        });
         editMenu.add(cutMenuItem);
-
-        copyMenuItem.setMnemonic('y');
-        copyMenuItem.setText("Copy");
-        editMenu.add(copyMenuItem);
-
-        pasteMenuItem.setMnemonic('p');
-        pasteMenuItem.setText("Paste");
-        editMenu.add(pasteMenuItem);
-
-        deleteMenuItem.setMnemonic('d');
-        deleteMenuItem.setText("Delete");
-        editMenu.add(deleteMenuItem);
 
         menuBar.add(editMenu);
 
@@ -202,6 +193,13 @@ public class mainForm extends javax.swing.JFrame {
         */
     }//GEN-LAST:event_mnuTrain_NNActionPerformed
 
+    private void cutMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cutMenuItemActionPerformed
+        // TODO add your handling code here:
+        Dictionary dict =new Dictionary();
+        desktopPane.add(dict);
+        dict.setVisible(true);
+    }//GEN-LAST:event_cutMenuItemActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -246,9 +244,7 @@ public class mainForm extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem aboutMenuItem;
     private javax.swing.JMenuItem contentMenuItem;
-    private javax.swing.JMenuItem copyMenuItem;
     private javax.swing.JMenuItem cutMenuItem;
-    private javax.swing.JMenuItem deleteMenuItem;
     private javax.swing.JDesktopPane desktopPane;
     private javax.swing.JMenu editMenu;
     private javax.swing.JMenuItem exitMenuItem;
@@ -260,7 +256,6 @@ public class mainForm extends javax.swing.JFrame {
     private javax.swing.JMenu mnuTrain;
     private javax.swing.JMenuItem mnuTrain_NN;
     private javax.swing.JMenuItem mnuTrain_Sphinx4;
-    private javax.swing.JMenuItem pasteMenuItem;
     private javax.swing.JMenuItem saveMenuItem;
     // End of variables declaration//GEN-END:variables
 }
