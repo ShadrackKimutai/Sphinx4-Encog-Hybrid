@@ -338,9 +338,9 @@ public class Dictionary extends javax.swing.JInternalFrame {
         PrintWriter out = null;
         String saveDialog = saveDialog();
 
-        if (!saveDialog.endsWith(".dic")) {
+        if (!saveDialog.endsWith(".dict")) {
 
-            saveDialog = saveDialog + ".dic";
+            saveDialog = saveDialog + ".dict";
         }
         System.out.println(saveDialog);
         try {
@@ -361,7 +361,7 @@ public class Dictionary extends javax.swing.JInternalFrame {
         final JFileChooser fc = new JFileChooser();
 
         fc.setDialogTitle("Save Dictionary");
-        fc.setFileFilter(new FileNameExtensionFilter("Dictionary File(*.dic)", "*.dic"));
+        fc.setFileFilter(new FileNameExtensionFilter("Dictionary File(*.dict)", "*.dict"));
         fc.setDialogType(JFileChooser.SAVE_DIALOG);
 
         fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
@@ -417,7 +417,7 @@ public class Dictionary extends javax.swing.JInternalFrame {
                 if (testWord.length() > i) {
                     label = label + " " + String.valueOf(lb.getMarker(testWord.charAt(i)));
                 } else {
-                    label = label + " 00";
+                    label = label + " 10";
                 }
             }
 
