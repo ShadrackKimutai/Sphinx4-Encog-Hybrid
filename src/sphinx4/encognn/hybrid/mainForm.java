@@ -101,6 +101,7 @@ public class mainForm extends javax.swing.JFrame {
         editMenu.setMnemonic('g');
         editMenu.setText("Generate");
 
+        cutMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_D, java.awt.event.InputEvent.SHIFT_MASK));
         cutMenuItem.setMnemonic('d');
         cutMenuItem.setText("Dictionary");
         cutMenuItem.addActionListener(new java.awt.event.ActionListener() {
