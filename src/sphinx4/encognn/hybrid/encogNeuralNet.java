@@ -527,7 +527,7 @@ private void start(){
                
 	FeatureExtractor fe=new FeatureExtractor();
                 MLDataSet trainingSet = new BasicMLDataSet();
-                int i = 0;
+                
     		for (File f : files) {
     			txtOutput.append(f.getAbsolutePath()+"\n");
     		
@@ -540,7 +540,7 @@ private void start(){
 					
                                       //System.out.println(index);
                         
-					out[i] = 1.;
+					out[index] = 1.;
                                        
 					MLData mldataout = new BasicMLData(out);
 					trainingSet.add(mldataIn, mldataout);
@@ -550,7 +550,7 @@ private void start(){
 				} catch (Exception e){
                                     e.printStackTrace();
                                 }
-                                i++;
+                                
     	}
     	
     		BasicNetwork network = new BasicNetwork();
@@ -579,14 +579,14 @@ private void start(){
     			epoch++;
     		} while(train.getError() > ACCURACY);
     		train.finishTraining();
-               System.out.println("****************************************************************Begin Testing");
+              // System.out.println("****************************************************************Begin Testing");
              
     		// test the neural network
     		int WER=0;
     		for(MLDataPair pair: trainingSet ) {
     			final MLData output = network.compute(pair.getInput());
     			//System.out.println("actual-->" + Labeler.getWord(output) + ", ideal-->" + Labeler.getWord(pair.getIdeal()));
-                      //txtOutput.append("\nactual--->" + Labeler.getWord(output) + ", ideal--->" + Labeler.getWord(pair.getIdeal()));
+                      txtOutput.append("\nactual--->" + Labeler.getWord(output) + ", ideal--->" + Labeler.getWord(pair.getIdeal()));
              for(double x:pair.getInputArray()){
                        //System.out.println(x);
                 }
