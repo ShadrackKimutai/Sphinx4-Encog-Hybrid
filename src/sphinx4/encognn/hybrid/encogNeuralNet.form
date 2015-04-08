@@ -11,6 +11,10 @@
     </Property>
     <Property name="doubleBuffered" type="boolean" value="true"/>
     <Property name="layer" type="int" value="1"/>
+    <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+      <Dimension value="[960, 520]"/>
+    </Property>
+    <Property name="name" type="java.lang.String" value=""/>
     <Property name="opaque" type="boolean" value="true"/>
   </Properties>
   <SyntheticProperties>
@@ -331,7 +335,7 @@
                       <Group type="102" attributes="0">
                           <Component id="btnBeginTraining" min="-2" pref="169" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="btnclear" pref="56" max="32767" attributes="0"/>
+                          <Component id="btnclear" pref="60" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>

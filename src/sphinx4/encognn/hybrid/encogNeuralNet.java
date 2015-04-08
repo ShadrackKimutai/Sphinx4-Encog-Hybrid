@@ -103,20 +103,22 @@ public class encogNeuralNet extends javax.swing.JInternalFrame {
         setDesktopIcon(getDesktopIcon());
         setDoubleBuffered(true);
         setLayer(1);
+        setMinimumSize(new java.awt.Dimension(960, 520));
+        setName("");
         setOpaque(true);
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
-            public void internalFrameDeiconified(javax.swing.event.InternalFrameEvent evt) {
+            public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
             }
             public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
             }
+            public void internalFrameDeiconified(javax.swing.event.InternalFrameEvent evt) {
+            }
             public void internalFrameIconified(javax.swing.event.InternalFrameEvent evt) {
             }
-            public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
+            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
             }
             public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
                 formInternalFrameClosing(evt);
-            }
-            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
             }
             public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
             }
@@ -314,7 +316,7 @@ public class encogNeuralNet extends javax.swing.JInternalFrame {
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(btnBeginTraining, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnclear, javax.swing.GroupLayout.DEFAULT_SIZE, 52, Short.MAX_VALUE)))
+                        .addComponent(btnclear, javax.swing.GroupLayout.DEFAULT_SIZE, 60, Short.MAX_VALUE)))
                 .addGap(18, 18, 18)
                 .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -521,21 +523,7 @@ private void initDict(){
 private void start(){
     SwingWorker<Void,String> worker=new SwingWorker<Void,String>(){
 
-            @Override
-            protected void done() {
-                super.done();
-            }
-
-            @Override
-            protected void process(List<String> chunks) {
-                super.process(chunks);
-            }
-        
-/*
- * 
- 
-            @Override
-            protected Void doInBackground() throws Exception {
+       protected Void doInBackground() throws Exception {
                
 	FeatureExtractor fe=new FeatureExtractor();
                 MLDataSet trainingSet = new BasicMLDataSet();
@@ -550,7 +538,7 @@ private void start(){
 					double[] out = new double[OUTPUT_NODES];
 					Integer index = new Integer(Labeler.getLabel(f));
 					
-                                      System.out.println(index);
+                                      //System.out.println(index);
                         
 					out[i] = 1.;
                                        
@@ -605,25 +593,22 @@ private void start(){
     		
      		Encog.getInstance().shutdown();  
      		
-                return null;
-            };
-
+               
+            }
+        return null;
+       }
             
+           
             @Override
-            protected Void done() {
+            protected void done() {
                txtOutput.append("\n****************************************************************Completed training and testing\n");
-            };
+            }
 
+          
             @Override
-            protected Void process(List<String> chunks) {
+            protected void process(List<String> chunks) {
                 String value=chunks.get(chunks.size()-1);
                 txtOutput.append(value);
-            };
-*/
-
-            @Override
-            protected Void doInBackground() throws Exception {
-                throw new UnsupportedOperationException("Not supported yet.");
             }
 
 
