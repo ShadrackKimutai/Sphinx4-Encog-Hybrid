@@ -7,6 +7,7 @@ package sphinx4.encognn.hybrid;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.SwingWorker;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -27,6 +29,7 @@ import org.encog.ml.data.basic.BasicMLDataSet;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.layers.BasicLayer;
 import org.encog.neural.networks.training.propagation.resilient.ResilientPropagation;
+import org.encog.persist.EncogDirectoryPersistence;
 import sphinx4.encognn.hybrid.nn.encog.recognizer.Recognizer;
 import sphinx4.encognn.hybrid.util.FeatureExtractor;
 import sphinx4.encognn.hybrid.util.FileProcessor;
@@ -43,6 +46,7 @@ public class encogNeuralNet extends javax.swing.JInternalFrame {
     private List<File> files;
     double ACCURACY;
     int HIDDEN_NODES;
+    boolean shutDown;
 
     /**
      * Creates new form encogNeuralNet
@@ -50,7 +54,8 @@ public class encogNeuralNet extends javax.swing.JInternalFrame {
     public encogNeuralNet() {
         initComponents();
         this.INPUT_NODES=13;
-        this.OUTPUT_NODES=10;
+        this.OUTPUT_NODES=31;
+        this.shutDown=false;
        
         
     }
@@ -90,6 +95,8 @@ public class encogNeuralNet extends javax.swing.JInternalFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         txtOutput = new javax.swing.JTextArea();
         btnclear = new javax.swing.JButton();
+        btnBeginTraining1 = new javax.swing.JButton();
+        btnclear1 = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         numofhnodes = new javax.swing.JSpinner();
         jLabel2 = new javax.swing.JLabel();
@@ -109,18 +116,18 @@ public class encogNeuralNet extends javax.swing.JInternalFrame {
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
             public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
             }
+            public void internalFrameIconified(javax.swing.event.InternalFrameEvent evt) {
+            }
             public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
             }
             public void internalFrameDeiconified(javax.swing.event.InternalFrameEvent evt) {
             }
-            public void internalFrameIconified(javax.swing.event.InternalFrameEvent evt) {
-            }
-            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
+            public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
             }
             public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
                 formInternalFrameClosing(evt);
             }
-            public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
+            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
             }
         });
 
@@ -193,9 +200,9 @@ public class encogNeuralNet extends javax.swing.JInternalFrame {
                             .addComponent(lblSpeaker2))
                         .addGap(4, 4, 4)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(txtSpeaker4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 248, Short.MAX_VALUE)
                             .addComponent(txtSpeaker3, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtSpeaker2))))
+                            .addComponent(txtSpeaker2)
+                            .addComponent(txtSpeaker4, javax.swing.GroupLayout.DEFAULT_SIZE, 248, Short.MAX_VALUE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnSpeaker3)
@@ -292,6 +299,22 @@ public class encogNeuralNet extends javax.swing.JInternalFrame {
             }
         });
 
+        btnBeginTraining1.setText("Save Network");
+        btnBeginTraining1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBeginTraining1ActionPerformed(evt);
+            }
+        });
+
+        btnclear1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        btnclear1.setForeground(new java.awt.Color(255, 0, 0));
+        btnclear1.setText("Stop");
+        btnclear1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnclear1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -302,21 +325,28 @@ public class encogNeuralNet extends javax.swing.JInternalFrame {
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(btnBeginTraining, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnclear, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(btnclear, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnBeginTraining1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnclear1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 808, Short.MAX_VALUE))
-                    .addComponent(jProgressBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(jScrollPane1)
+                        .addContainerGap())
+                    .addComponent(jProgressBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 913, Short.MAX_VALUE)))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 223, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 239, Short.MAX_VALUE)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(btnBeginTraining, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnBeginTraining, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnclear, javax.swing.GroupLayout.DEFAULT_SIZE, 60, Short.MAX_VALUE)))
+                        .addComponent(btnBeginTraining1, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
+                        .addComponent(btnclear1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnclear, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -487,17 +517,22 @@ public class encogNeuralNet extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
             FileProcessor fp=new FileProcessor();
             String inputAudioFiles[]={txtSpeaker1.getText(),txtSpeaker2.getText(),txtSpeaker3.getText(),txtSpeaker4.getText(),txtSpeaker5.getText()};
-      
+      shutDown=false;
             files=fp.wavFileProcessor(inputAudioFiles);
             ACCURACY=Double.valueOf(errorSpinner.getValue().toString());
             HIDDEN_NODES=Integer.valueOf(numofhnodes.getValue().toString());
-            start();
-            /*
+       /*
              * Recognizer rec=new Recognizer();
             rec.recognizer(files);
             * 
             */
-		
+        try {
+            start();
+
+        } catch (InterruptedException ex) {
+            Logger.getLogger(encogNeuralNet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+	
             
                     
     }//GEN-LAST:event_btnBeginTrainingActionPerformed
@@ -515,32 +550,43 @@ public class encogNeuralNet extends javax.swing.JInternalFrame {
         txtOutput.replaceSelection("");
         txtOutput.removeAll();
     }//GEN-LAST:event_btnclearActionPerformed
+
+    private void btnBeginTraining1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBeginTraining1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnBeginTraining1ActionPerformed
+
+    private void btnclear1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnclear1ActionPerformed
+shutDown      =true;
+    }//GEN-LAST:event_btnclear1ActionPerformed
 private void initDict(){
     Path dirPath=Paths.get(txtDirectoryPath.getText());
         //SpeechTagger sT=new SpeechTagger();
       // sT.loadDict(dirPath);
 }
-private void start(){
+private void start()throws InterruptedException{
     SwingWorker<Void,String> worker=new SwingWorker<Void,String>(){
+            private String report="Completed training and testing";
 
+           
        protected Void doInBackground() throws Exception {
-               
+               File fn = new File("network.csv");
 	FeatureExtractor fe=new FeatureExtractor();
                 MLDataSet trainingSet = new BasicMLDataSet();
-                
+                int i=0;
     		for (File f : files) {
     			txtOutput.append(f.getAbsolutePath()+"\n");
-    		
+    		txtOutput.setCaretPosition(txtOutput.getText().length());
 				List<double[]> data;
 				try {
 					data = fe.fileProcessor(f);
 					MLData mldataIn = new BasicMLData(data.get(0));
 					double[] out = new double[OUTPUT_NODES];
-					Integer index = new Integer(Labeler.getLabel(f));
-					
+					//Integer index = new Integer(Labeler.getLabel(f));
+                        
+				
                                       //System.out.println(index);
                         
-					out[index] = 1.;
+					out[i] = 1.;
                                        
 					MLData mldataout = new BasicMLData(out);
 					trainingSet.add(mldataIn, mldataout);
@@ -550,7 +596,12 @@ private void start(){
 				} catch (Exception e){
                                     e.printStackTrace();
                                 }
-                                
+                    if (i < 30) {
+                        i++;
+                    } else {
+                        i = 0;
+                    }
+
     	}
     	
     		BasicNetwork network = new BasicNetwork();
@@ -570,12 +621,22 @@ private void start(){
              txtOutput.append("Training Set: "+trainingSet.size()+" Input Nodes:"+INPUT_NODES+" Hidden Nodes:"+HIDDEN_NODES+" Output Nodes:"+OUTPUT_NODES+" Train to accuracy:"+ACCURACY+"\n");
                 
                 txtOutput.append("****************************************************************Begining Training\n");
+                txtOutput.setCaretPosition(txtOutput.getText().length());
     		int epoch = 1;
      
     		do {
     			train.iteration();
     			//System.out.println("Epoch:" + epoch + " Error-->" + train.getError());
                        txtOutput.append("Epoch:" + epoch + " Error-->" + train.getError()+"\n");
+                       txtOutput.setCaretPosition(txtOutput.getText().length());
+                       if (shutDown==true){
+                            txtOutput.append("Thread Excecution terminated!");
+                       txtOutput.setCaretPosition(txtOutput.getText().length());
+                           Encog.getInstance().shutdown();  
+                           report="Terminated training and testing"; 
+                        return null;
+                          
+                       }
     			epoch++;
     		} while(train.getError() > ACCURACY);
     		train.finishTraining();
@@ -583,25 +644,30 @@ private void start(){
              
     		// test the neural network
     		int WER=0;
+                OutputStream stream = null;
     		for(MLDataPair pair: trainingSet ) {
     			final MLData output = network.compute(pair.getInput());
     			//System.out.println("actual-->" + Labeler.getWord(output) + ", ideal-->" + Labeler.getWord(pair.getIdeal()));
                       txtOutput.append("\nactual--->" + Labeler.getWord(output) + ", ideal--->" + Labeler.getWord(pair.getIdeal()));
+                      txtOutput.setCaretPosition(txtOutput.getText().length());
              for(double x:pair.getInputArray()){
                        //System.out.println(x);
                 }
-    		
+             
+    		EncogDirectoryPersistence.saveObject(fn, network);
      		Encog.getInstance().shutdown();  
      		
                
             }
         return null;
+        
+                
        }
             
            
             @Override
             protected void done() {
-               txtOutput.append("\n****************************************************************Completed training and testing\n");
+               txtOutput.append("\n****************************************************************"+report+"\n");
             }
 
           
@@ -611,18 +677,22 @@ private void start(){
                 txtOutput.append(value);
             }
 
+        
+
 
     };
     worker.execute();
 }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBeginTraining;
+    private javax.swing.JButton btnBeginTraining1;
     private javax.swing.JButton btnSpeaker1;
     private javax.swing.JButton btnSpeaker2;
     private javax.swing.JButton btnSpeaker3;
     private javax.swing.JButton btnSpeaker4;
     private javax.swing.JButton btnSpeaker5;
     private javax.swing.JButton btnclear;
+    private javax.swing.JButton btnclear1;
     private javax.swing.JSpinner errorSpinner;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;

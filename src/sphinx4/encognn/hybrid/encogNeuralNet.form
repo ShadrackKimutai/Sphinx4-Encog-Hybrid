@@ -109,9 +109,9 @@
                           </Group>
                           <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                              <Component id="txtSpeaker4" alignment="0" pref="248" max="32767" attributes="0"/>
                               <Component id="txtSpeaker3" alignment="0" max="32767" attributes="0"/>
                               <Component id="txtSpeaker2" max="32767" attributes="0"/>
+                              <Component id="txtSpeaker4" alignment="1" pref="248" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -317,11 +317,14 @@
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
                               <Component id="btnBeginTraining" max="32767" attributes="0"/>
                               <Component id="btnclear" max="32767" attributes="0"/>
+                              <Component id="btnBeginTraining1" alignment="1" max="32767" attributes="0"/>
+                              <Component id="btnclear1" alignment="1" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jScrollPane1" pref="808" max="32767" attributes="0"/>
+                          <Component id="jScrollPane1" max="32767" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
                       </Group>
-                      <Component id="jProgressBar1" max="32767" attributes="0"/>
+                      <Component id="jProgressBar1" pref="913" max="32767" attributes="0"/>
                   </Group>
               </Group>
           </Group>
@@ -331,11 +334,15 @@
               <Group type="102" alignment="1" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jScrollPane1" pref="223" max="32767" attributes="0"/>
-                      <Group type="102" attributes="0">
-                          <Component id="btnBeginTraining" min="-2" pref="169" max="-2" attributes="0"/>
+                      <Component id="jScrollPane1" pref="239" max="32767" attributes="0"/>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="btnBeginTraining" min="-2" pref="55" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="btnclear" pref="60" max="32767" attributes="0"/>
+                          <Component id="btnBeginTraining1" min="-2" pref="55" max="-2" attributes="0"/>
+                          <EmptySpace pref="21" max="32767" attributes="0"/>
+                          <Component id="btnclear1" min="-2" pref="50" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="btnclear" min="-2" pref="50" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -386,6 +393,28 @@
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnclearActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="btnBeginTraining1">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Save Network"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnBeginTraining1ActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="btnclear1">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Tahoma" size="11" style="1"/>
+            </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="0" green="0" red="ff" type="rgb"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Stop"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnclear1ActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>
