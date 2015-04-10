@@ -4,6 +4,7 @@
  */
 package sphinx4.encognn.hybrid;
 
+import java.awt.Color;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -96,7 +97,7 @@ public class encogNeuralNet extends javax.swing.JInternalFrame {
         txtOutput = new javax.swing.JTextArea();
         btnclear = new javax.swing.JButton();
         btnBeginTraining1 = new javax.swing.JButton();
-        btnclear1 = new javax.swing.JButton();
+        btnStop = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         numofhnodes = new javax.swing.JSpinner();
         jLabel2 = new javax.swing.JLabel();
@@ -183,16 +184,16 @@ public class encogNeuralNet extends javax.swing.JInternalFrame {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(lblSpeaker1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtSpeaker1))
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(lblSpeaker5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtSpeaker5, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(txtSpeaker5))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(lblSpeaker1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtSpeaker1, javax.swing.GroupLayout.DEFAULT_SIZE, 248, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblSpeaker3)
@@ -202,7 +203,8 @@ public class encogNeuralNet extends javax.swing.JInternalFrame {
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(txtSpeaker3, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtSpeaker2)
-                            .addComponent(txtSpeaker4, javax.swing.GroupLayout.DEFAULT_SIZE, 248, Short.MAX_VALUE))))
+                            .addComponent(txtSpeaker4, javax.swing.GroupLayout.DEFAULT_SIZE, 248, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnSpeaker3)
@@ -306,12 +308,11 @@ public class encogNeuralNet extends javax.swing.JInternalFrame {
             }
         });
 
-        btnclear1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        btnclear1.setForeground(new java.awt.Color(255, 0, 0));
-        btnclear1.setText("Stop");
-        btnclear1.addActionListener(new java.awt.event.ActionListener() {
+        btnStop.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        btnStop.setText("Stop");
+        btnStop.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnclear1ActionPerformed(evt);
+                btnStopActionPerformed(evt);
             }
         });
 
@@ -327,7 +328,7 @@ public class encogNeuralNet extends javax.swing.JInternalFrame {
                             .addComponent(btnBeginTraining, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(btnclear, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(btnBeginTraining1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnclear1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(btnStop, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane1)
                         .addContainerGap())
@@ -344,7 +345,7 @@ public class encogNeuralNet extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnBeginTraining1, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
-                        .addComponent(btnclear1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnStop, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnclear, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
@@ -515,6 +516,7 @@ public class encogNeuralNet extends javax.swing.JInternalFrame {
 
     private void btnBeginTrainingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBeginTrainingActionPerformed
         // TODO add your handling code here:
+        btnclear.doClick();
             FileProcessor fp=new FileProcessor();
             String inputAudioFiles[]={txtSpeaker1.getText(),txtSpeaker2.getText(),txtSpeaker3.getText(),txtSpeaker4.getText(),txtSpeaker5.getText()};
       shutDown=false;
@@ -555,15 +557,16 @@ public class encogNeuralNet extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnBeginTraining1ActionPerformed
 
-    private void btnclear1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnclear1ActionPerformed
+    private void btnStopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStopActionPerformed
 shutDown      =true;
-    }//GEN-LAST:event_btnclear1ActionPerformed
+    }//GEN-LAST:event_btnStopActionPerformed
 private void initDict(){
     Path dirPath=Paths.get(txtDirectoryPath.getText());
         //SpeechTagger sT=new SpeechTagger();
       // sT.loadDict(dirPath);
 }
 private void start()throws InterruptedException{
+        txtOutput.setForeground(Color.BLACK);
     SwingWorker<Void,String> worker=new SwingWorker<Void,String>(){
             private String report="Completed training and testing";
 
@@ -623,17 +626,23 @@ private void start()throws InterruptedException{
                 txtOutput.append("****************************************************************Begining Training\n");
                 txtOutput.setCaretPosition(txtOutput.getText().length());
     		int epoch = 1;
-     
+     btnStop.setForeground(Color.red);
     		do {
     			train.iteration();
     			//System.out.println("Epoch:" + epoch + " Error-->" + train.getError());
                        txtOutput.append("Epoch:" + epoch + " Error-->" + train.getError()+"\n");
                        txtOutput.setCaretPosition(txtOutput.getText().length());
                        if (shutDown==true){
+                              
+                               
                             txtOutput.append("Thread Excecution terminated!");
-                       txtOutput.setCaretPosition(txtOutput.getText().length());
+//                     txtOutput.setSelectionStart(    txtOutput.getText().length()-31);
+//                               txtOutput.setSelectionEnd(    txtOutput.getText().length());  
+                            report="Terminated training and testing"; 
+                 
                            Encog.getInstance().shutdown();  
-                           report="Terminated training and testing"; 
+                         
+                           txtOutput.setForeground(Color.red);
                         return null;
                           
                        }
@@ -656,7 +665,7 @@ private void start()throws InterruptedException{
              
     		EncogDirectoryPersistence.saveObject(fn, network);
      		Encog.getInstance().shutdown();  
-     		
+     		btnStop.setForeground(Color.BLACK);
                
             }
         return null;
@@ -691,8 +700,8 @@ private void start()throws InterruptedException{
     private javax.swing.JButton btnSpeaker3;
     private javax.swing.JButton btnSpeaker4;
     private javax.swing.JButton btnSpeaker5;
+    private javax.swing.JButton btnStop;
     private javax.swing.JButton btnclear;
-    private javax.swing.JButton btnclear1;
     private javax.swing.JSpinner errorSpinner;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
