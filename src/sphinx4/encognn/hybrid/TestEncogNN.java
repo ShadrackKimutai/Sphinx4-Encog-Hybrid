@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
+import javax.swing.SwingUtilities;
+import javax.swing.SwingWorker;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import org.encog.Encog;
 import org.encog.ml.data.MLData;
@@ -34,7 +36,8 @@ public class TestEncogNN extends javax.swing.JInternalFrame {
     public File SAVEDNNINSTANCE;
     AccuracyBridge acc;
     private int OUTPUT_NODES;
-
+// private List<File> files;
+  private File file;
     /**
      * Creates new form TestEncogNN
      */
@@ -266,7 +269,9 @@ public class TestEncogNN extends javax.swing.JInternalFrame {
         jScrollPane2.setBorder(javax.swing.BorderFactory.createTitledBorder("Results"));
 
         txtBulkResults.setColumns(20);
+        txtBulkResults.setFont(new java.awt.Font("Courier New", 0, 13)); // NOI18N
         txtBulkResults.setRows(5);
+        txtBulkResults.setDoubleBuffered(true);
         jScrollPane2.setViewportView(txtBulkResults);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -354,47 +359,85 @@ public class TestEncogNN extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txtSingleWordUtterActionPerformed
 
     private void btnRecogFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRecogFileActionPerformed
+
         // TODO add your handling code here:
-        FileProcessor fp = new FileProcessor();
-        String inputAudioFile = txtSingleWordUtter.getText();
-        File file = new File(inputAudioFile);
-        LoadnTest(file);
+        if (txtSingleWordUtter.getText()==""){
+            return;
+        } else{
+        SwingUtilities.invokeLater(new Runnable(){
+
+            @Override
+            public void run() {
+                FileProcessor fp = new FileProcessor();
+                String inputAudioFile = txtSingleWordUtter.getText();
+                File file = new File(inputAudioFile);
+                LoadnTest(file);
+            } 
+        });
+        }
     }//GEN-LAST:event_btnRecogFileActionPerformed
-    private void LoadnTest(List<File> files) {
-        System.out.println("Loading and Testing saved network");
-        FeatureExtractor fe = new FeatureExtractor();
-        MLDataSet trainingSet = new BasicMLDataSet();
-        int i = 0;
-        for (File f : files) {
+    private void LoadnTestBulk(final List<File> files) {
+        SwingWorker<Void, String> worker = new SwingWorker<Void, String>() {
+            private int error;
+
+            
+            @Override
+            protected Void doInBackground() throws Exception {
+               // System.out.println("Inside LoadnTest(final List<File> files)");
+                FeatureExtractor fe = new FeatureExtractor();
+                MLDataSet trainingSet = new BasicMLDataSet();
+                int i = 0;
+                for (File f : files) {
 
 
-            List<double[]> data;
-            try {
-                data = fe.fileProcessor(f);
-                MLData mldataIn = new BasicMLData(data.get(0));
-                //	System.out.println(mldataIn);
-                double[] out = new double[OUTPUT_NODES];
-                //Integer index = new Integer(Labeler.getLabel(f));
-                //System.out.println(index+""+data.get(0));
-                out[i] = 1.;
-                MLData mldataout = new BasicMLData(out);
-                trainingSet.add(mldataIn, mldataout);
-            } catch (FileNotFoundException e) {
-                // TODO Auto-generated catch block
+                    List<double[]> data;
+                    try {
+                        data = fe.fileProcessor(f);
+                        MLData mldataIn = new BasicMLData(data.get(0));
+                        //	System.out.println(mldataIn);
+                        double[] out = new double[OUTPUT_NODES];
+                        //Integer index = new Integer(Labeler.getLabel(f));
+                       //System.out.println(i+""+data.get(0));
+                        out[i] = 1.;
+                        MLData mldataout = new BasicMLData(out);
+                        trainingSet.add(mldataIn, mldataout);
+                    } catch (FileNotFoundException e) {
+                        // TODO Auto-generated catch block
+                    }
+                    if (i < 30) {
+                        i++;
+                    } else {
+                        i = 0;
+                    }
+                }
+                BasicNetwork network = (BasicNetwork) EncogDirectoryPersistence.loadObject(SAVEDNNINSTANCE);
+                for (MLDataPair pair : trainingSet) {
+                    final MLData output = network.compute(pair.getInput());
+
+                   txtBulkResults.append("actual-->" + Labeler.getWord(output) + ", ideal-->" + Labeler.getWord(pair.getIdeal())+"\n");
+                   txtBulkResults.moveCaretPosition(txtBulkResults.getText().length());
+                   String s =String.valueOf(Labeler.getWord(pair.getIdeal()));
+                   String t=String.valueOf(Labeler.getWord(output));
+                   if (Integer.valueOf(s.compareTo(t))!=0)
+                       error++;
+                }
+                Encog.getInstance().shutdown();
+                return null;
             }
-            if (i < 30) {
-                i++;
-            } else {
-                i = 0;
+            @Override
+            protected void process(List<String> chunks) {
+                String value = chunks.get(chunks.size() - 1);
+                txtBulkResults.append(value);
             }
-        }
-        BasicNetwork network = (BasicNetwork) EncogDirectoryPersistence.loadObject(SAVEDNNINSTANCE);
-        for (MLDataPair pair : trainingSet) {
-            final MLData output = network.compute(pair.getInput());
 
-            System.out.println("actual-->" + Labeler.getWord(output) + ", ideal-->" + Labeler.getWord(pair.getIdeal()));
-        }
-        Encog.getInstance().shutdown();
+            @Override
+            protected void done() {
+                float results=((31-error)*100)/31;
+              txtBulkResults.append(String.valueOf(results)+"% Words Recognized correctrly from this speaker");
+            }
+
+        };
+        worker.execute();
     }
 
     private void LoadnTest(File file) {
@@ -427,15 +470,29 @@ public class TestEncogNN extends javax.swing.JInternalFrame {
         txtBulkResults.moveCaretPosition(txtBulkResults.getText().length());
         }
         Encog.getInstance().shutdown();
+    
+       
     }
+
+    
     private void btnRecogFolderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRecogFolderActionPerformed
         // TODO add your handling code here:
-        FileProcessor fp = new FileProcessor();
-        String inputAudioFiles = txtIndividualsSpokenWord.getText();
-        List<File> files = fp.wavFileProcessor(inputAudioFiles);
-        LoadnTest(files);
-    }//GEN-LAST:event_btnRecogFolderActionPerformed
+        if (txtIndividualsSpokenWord.getText() == "") {
+            return;
+        } else {
+            SwingUtilities.invokeLater(new Runnable() {
 
+                @Override
+                public void run() {
+                    FileProcessor fp = new FileProcessor();
+                    String inputAudioFiles = txtIndividualsSpokenWord.getText();
+                    List<File> files = fp.wavFileProcessor(inputAudioFiles);
+                    LoadnTestBulk(files);
+                }
+            });
+        }
+    }//GEN-LAST:event_btnRecogFolderActionPerformed
+   
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
         txtIndividualsSpokenWord.setText(Dialog());
