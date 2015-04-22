@@ -5,36 +5,49 @@
 package sphinx4.encognn.hybrid;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import org.encog.Encog;
 import org.encog.ml.data.MLData;
 import org.encog.ml.data.MLDataPair;
+import org.encog.ml.data.MLDataSet;
+import org.encog.ml.data.basic.BasicMLData;
+import org.encog.ml.data.basic.BasicMLDataSet;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.persist.EncogDirectoryPersistence;
 import sphinx4.encognn.hybrid.util.AccuracyBridge;
+import sphinx4.encognn.hybrid.util.FeatureExtractor;
+import sphinx4.encognn.hybrid.util.FileProcessor;
+import sphinx4.encognn.hybrid.util.Labeler;
 
 /**
  *
  * @author Manu
  */
 public class TestEncogNN extends javax.swing.JInternalFrame {
-public File SAVEDNNINSTANCE;
-AccuracyBridge acc;
+
+    public File SAVEDNNINSTANCE;
+    AccuracyBridge acc;
+    private int OUTPUT_NODES;
+
     /**
      * Creates new form TestEncogNN
      */
     public TestEncogNN() {
-       this.SAVEDNNINSTANCE=new File("files/network.csv");
-    
-       
-       //this.jSlider1.setValue(acc.ACCURACY);
+        this.SAVEDNNINSTANCE = new File("files/network.csv");
+
+        this.OUTPUT_NODES = new TrainEncogNN().OUTPUT_NODES;
+
+        //this.jSlider1.setValue(acc.ACCURACY);
         initComponents();
-       
-               
-    
+
+
+
     }
 
     /**
@@ -47,7 +60,7 @@ AccuracyBridge acc;
     private void initComponents() {
 
         jPanel2 = new javax.swing.JPanel();
-        jSlider1 = new javax.swing.JSlider();
+        accuracySlider = new javax.swing.JSlider();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jTabbedPane1 = new javax.swing.JTabbedPane();
@@ -55,17 +68,21 @@ AccuracyBridge acc;
         jPanel5 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         txtSingleWordUtter = new javax.swing.JTextField();
-        jButton2 = new javax.swing.JButton();
+        btnRecogFile = new javax.swing.JButton();
+        jPanel6 = new javax.swing.JPanel();
         jTextField1 = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
-        jButton3 = new javax.swing.JButton();
+        btnRecogFolder = new javax.swing.JButton();
         jPanel8 = new javax.swing.JPanel();
         jButton5 = new javax.swing.JButton();
         txtIndividualsSpokenWord = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
-        txtDict = new javax.swing.JTextArea();
+        txtBulkResults = new javax.swing.JTextArea();
 
         setClosable(true);
+        setMaximizable(true);
+        setResizable(true);
+        setTitle("Test Trained Network");
         setMinimumSize(new java.awt.Dimension(700, 500));
         setPreferredSize(new java.awt.Dimension(700, 500));
 
@@ -88,15 +105,15 @@ AccuracyBridge acc;
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel2))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jSlider1, javax.swing.GroupLayout.PREFERRED_SIZE, 619, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 13, Short.MAX_VALUE)))
+                        .addComponent(accuracySlider, javax.swing.GroupLayout.DEFAULT_SIZE, 619, Short.MAX_VALUE)
+                        .addGap(13, 13, 13)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jSlider1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(accuracySlider, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
@@ -129,7 +146,7 @@ AccuracyBridge acc;
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(txtSingleWordUtter, javax.swing.GroupLayout.DEFAULT_SIZE, 449, Short.MAX_VALUE)
+                .addComponent(txtSingleWordUtter, javax.swing.GroupLayout.DEFAULT_SIZE, 459, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -143,12 +160,31 @@ AccuracyBridge acc;
                 .addGap(0, 22, Short.MAX_VALUE))
         );
 
-        jButton2.setText("Recognize");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnRecogFile.setText("Recognize");
+        btnRecogFile.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnRecogFileActionPerformed(evt);
             }
         });
+
+        jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder("Recognized Word"));
+
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jTextField1)
+                .addContainerGap())
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -156,23 +192,28 @@ AccuracyBridge acc;
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(jTextField1)
-                        .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap(28, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(12, 12, 12))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnRecogFile)
+                        .addContainerGap())
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(12, 12, 12))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(1, 1, 1)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(8, 8, 8)
+                .addComponent(btnRecogFile)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(155, Short.MAX_VALUE))
+                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(117, Short.MAX_VALUE))
         );
 
         jPanel5.getAccessibleContext().setAccessibleName("Open Single Spoken File");
@@ -182,10 +223,10 @@ AccuracyBridge acc;
         jPanel3.setMinimumSize(new java.awt.Dimension(900, 500));
         jPanel3.setPreferredSize(new java.awt.Dimension(900, 500));
 
-        jButton3.setText("Recognize");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        btnRecogFolder.setText("Recognize");
+        btnRecogFolder.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                btnRecogFolderActionPerformed(evt);
             }
         });
 
@@ -209,48 +250,51 @@ AccuracyBridge acc;
         jPanel8Layout.setHorizontalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel8Layout.createSequentialGroup()
-                .addContainerGap()
                 .addComponent(txtIndividualsSpokenWord)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel8Layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtIndividualsSpokenWord, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton5))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(0, 22, Short.MAX_VALUE))
         );
 
-        txtDict.setColumns(20);
-        txtDict.setRows(5);
-        jScrollPane2.setViewportView(txtDict);
+        jScrollPane2.setBorder(javax.swing.BorderFactory.createTitledBorder("Results"));
+
+        txtBulkResults.setColumns(20);
+        txtBulkResults.setRows(5);
+        jScrollPane2.setViewportView(txtBulkResults);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 665, Short.MAX_VALUE))
-                .addContainerGap(225, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 667, Short.MAX_VALUE)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(btnRecogFolder))
+                            .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(206, 206, 206))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnRecogFolder)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         jTabbedPane1.addTab("Test Individual Speaker's Spoken Words", jPanel3);
@@ -260,12 +304,9 @@ AccuracyBridge acc;
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 664, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 26, Short.MAX_VALUE)))
-                .addContainerGap())
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 664, Short.MAX_VALUE)
+                .addGap(20, 20, 20))
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -273,7 +314,7 @@ AccuracyBridge acc;
                 .addContainerGap()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 335, Short.MAX_VALUE)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 335, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -281,9 +322,9 @@ AccuracyBridge acc;
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-txtSingleWordUtter.setText(fileDialog());       
+        txtSingleWordUtter.setText(fileDialog());
     }//GEN-LAST:event_jButton1ActionPerformed
- private String fileDialog() {
+    private String fileDialog() {
         String replyString = null;
 
         final JFileChooser fc = new JFileChooser();
@@ -312,19 +353,94 @@ txtSingleWordUtter.setText(fileDialog());
         // TODO add your handling code here:
     }//GEN-LAST:event_txtSingleWordUtterActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void btnRecogFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRecogFileActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+        FileProcessor fp = new FileProcessor();
+        String inputAudioFile = txtSingleWordUtter.getText();
+        File file = new File(inputAudioFile);
+        LoadnTest(file);
+    }//GEN-LAST:event_btnRecogFileActionPerformed
+    private void LoadnTest(List<File> files) {
+        System.out.println("Loading and Testing saved network");
+        FeatureExtractor fe = new FeatureExtractor();
+        MLDataSet trainingSet = new BasicMLDataSet();
+        int i = 0;
+        for (File f : files) {
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+
+            List<double[]> data;
+            try {
+                data = fe.fileProcessor(f);
+                MLData mldataIn = new BasicMLData(data.get(0));
+                //	System.out.println(mldataIn);
+                double[] out = new double[OUTPUT_NODES];
+                //Integer index = new Integer(Labeler.getLabel(f));
+                //System.out.println(index+""+data.get(0));
+                out[i] = 1.;
+                MLData mldataout = new BasicMLData(out);
+                trainingSet.add(mldataIn, mldataout);
+            } catch (FileNotFoundException e) {
+                // TODO Auto-generated catch block
+            }
+            if (i < 30) {
+                i++;
+            } else {
+                i = 0;
+            }
+        }
+        BasicNetwork network = (BasicNetwork) EncogDirectoryPersistence.loadObject(SAVEDNNINSTANCE);
+        for (MLDataPair pair : trainingSet) {
+            final MLData output = network.compute(pair.getInput());
+
+            System.out.println("actual-->" + Labeler.getWord(output) + ", ideal-->" + Labeler.getWord(pair.getIdeal()));
+        }
+        Encog.getInstance().shutdown();
+    }
+
+    private void LoadnTest(File file) {
+        FeatureExtractor fe = new FeatureExtractor();
+        MLDataSet trainingSet = new BasicMLDataSet();
+
+
+
+        List<double[]> data;
+        try {
+            data = fe.fileProcessor(file);
+            MLData mldataIn = new BasicMLData(data.get(0));
+            //	System.out.println(mldataIn);
+            double[] out = new double[OUTPUT_NODES];
+            Integer index = new Integer(Labeler.getLabel(file));
+            //System.out.println(index+""+data.get(0));
+            out[index] = 1.;
+            MLData mldataout = new BasicMLData(out);
+            trainingSet.add(mldataIn, mldataout);
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+        }
+
+
+        BasicNetwork network = (BasicNetwork) EncogDirectoryPersistence.loadObject(SAVEDNNINSTANCE);
+        for (MLDataPair pair : trainingSet) {
+            final MLData output = network.compute(pair.getInput());
+
+            txtBulkResults.append("actual-->" + Labeler.getWord(output) + ", ideal-->" + Labeler.getWord(pair.getIdeal()));
+        txtBulkResults.moveCaretPosition(txtBulkResults.getText().length());
+        }
+        Encog.getInstance().shutdown();
+    }
+    private void btnRecogFolderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRecogFolderActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
+        FileProcessor fp = new FileProcessor();
+        String inputAudioFiles = txtIndividualsSpokenWord.getText();
+        List<File> files = fp.wavFileProcessor(inputAudioFiles);
+        LoadnTest(files);
+    }//GEN-LAST:event_btnRecogFolderActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
         txtIndividualsSpokenWord.setText(Dialog());
     }//GEN-LAST:event_jButton5ActionPerformed
-private String Dialog() {
+    private String Dialog() {
         String replyString = null;
         final JFileChooser fc = new JFileChooser();
 
@@ -350,23 +466,23 @@ private String Dialog() {
     private void txtIndividualsSpokenWordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIndividualsSpokenWordActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtIndividualsSpokenWordActionPerformed
-   public BasicNetwork loadNetwork() {
-		File file = SAVEDNNINSTANCE;
+    public BasicNetwork loadNetwork() {
+        File file = SAVEDNNINSTANCE;
 
-		if (!file.exists()) {
-			System.out.println("Can't read file: " + file.getAbsolutePath());
-			return null;
-		}
+        if (!file.exists()) {
+            System.out.println("Can't read file: " + file.getAbsolutePath());
+            return null;
+        }
 
-		BasicNetwork network = (BasicNetwork)EncogDirectoryPersistence.loadObject(file);
-		
-		return network;
-	}
+        BasicNetwork network = (BasicNetwork) EncogDirectoryPersistence.loadObject(file);
 
+        return network;
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JSlider accuracySlider;
+    private javax.swing.JButton btnRecogFile;
+    private javax.swing.JButton btnRecogFolder;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -374,12 +490,12 @@ private String Dialog() {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JSlider jSlider1;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextArea txtDict;
+    private javax.swing.JTextArea txtBulkResults;
     private javax.swing.JTextField txtIndividualsSpokenWord;
     private javax.swing.JTextField txtSingleWordUtter;
     // End of variables declaration//GEN-END:variables

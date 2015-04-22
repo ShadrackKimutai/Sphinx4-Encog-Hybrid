@@ -56,7 +56,7 @@ public class mainForm extends javax.swing.JFrame {
 
         mnuTrain.setText("Train");
 
-        mnuTrain_Sphinx4.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.SHIFT_MASK));
+        mnuTrain_Sphinx4.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
         mnuTrain_Sphinx4.setText("Sphinx4");
         mnuTrain_Sphinx4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -65,7 +65,7 @@ public class mainForm extends javax.swing.JFrame {
         });
         mnuTrain.add(mnuTrain_Sphinx4);
 
-        mnuTrain_NN.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.SHIFT_MASK));
+        mnuTrain_NN.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_MASK));
         mnuTrain_NN.setText("Neural Network");
         mnuTrain_NN.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -77,8 +77,9 @@ public class mainForm extends javax.swing.JFrame {
         fileMenu.add(mnuTrain);
         fileMenu.add(jSeparator2);
 
+        saveMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_T, java.awt.event.InputEvent.CTRL_MASK));
         saveMenuItem.setMnemonic('s');
-        saveMenuItem.setText("Load");
+        saveMenuItem.setText("Load and Test");
         saveMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 saveMenuItemActionPerformed(evt);
@@ -87,6 +88,7 @@ public class mainForm extends javax.swing.JFrame {
         fileMenu.add(saveMenuItem);
         fileMenu.add(jSeparator1);
 
+        exitMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, java.awt.event.InputEvent.ALT_MASK));
         exitMenuItem.setMnemonic('x');
         exitMenuItem.setText("Exit");
         exitMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -148,6 +150,10 @@ public class mainForm extends javax.swing.JFrame {
 
     private void saveMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveMenuItemActionPerformed
         // TODO add your handling code here:
+        TestEncogNN tstEn=new TestEncogNN();
+        desktopPane.add(tstEn);
+         tstEn.setVisible(true);
+        
     }//GEN-LAST:event_saveMenuItemActionPerformed
 
     private void mnuTrain_Sphinx4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuTrain_Sphinx4ActionPerformed
@@ -167,7 +173,7 @@ public class mainForm extends javax.swing.JFrame {
 
             @Override
             public void run() {
-                encogNeuralNet encogNeuralNet = new encogNeuralNet();
+                TrainEncogNN encogNeuralNet = new TrainEncogNN();
                 desktopPane.add(encogNeuralNet);
                 encogNeuralNet.setVisible(true);
             }
@@ -176,7 +182,7 @@ public class mainForm extends javax.swing.JFrame {
         });
        /*
         *
-        encogNeuralNet n1=new encogNeuralNet();
+        TrainEncogNN n1=new TrainEncogNN();
         if (nnActive==false){
         
         desktopPane.add(n1);

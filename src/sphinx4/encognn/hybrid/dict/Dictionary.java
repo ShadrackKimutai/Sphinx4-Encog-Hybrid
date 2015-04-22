@@ -13,7 +13,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import sphinx4.encognn.hybrid.encogNeuralNet;
+import sphinx4.encognn.hybrid.TrainEncogNN;
 import sphinx4.encognn.hybrid.util.Labeler;
 
 /**
@@ -375,7 +375,7 @@ public class Dictionary extends javax.swing.JInternalFrame {
                 //System.out.println(returnVal);
                 replyString = fc.getSelectedFile().getCanonicalFile().toString();
             } catch (IOException ex) {
-                Logger.getLogger(encogNeuralNet.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(TrainEncogNN.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         return replyString;
