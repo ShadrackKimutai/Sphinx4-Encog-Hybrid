@@ -15,10 +15,7 @@ import java.util.List;
  */
 public class FileProcessor   {
 
-	/**
-	 * @param DATA_FOLDER 
-	 * 
-	 */
+	
 	
 	//
 	public FileProcessor(){

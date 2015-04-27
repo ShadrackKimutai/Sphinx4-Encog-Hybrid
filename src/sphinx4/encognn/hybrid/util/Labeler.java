@@ -1,6 +1,10 @@
 package sphinx4.encognn.hybrid.util;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.encog.ml.data.MLData;
 
@@ -28,6 +32,24 @@ public class Labeler {
 
         return marker;
     }
+    public int getIndex(File filepath) {
+        int index = 0;
+        FileProcessor fp = new FileProcessor();
+
+        List<File> files = fp.wavFileProcessor(filepath.getParent());
+        int i = 0;
+        for (File file : files) {
+            String compString=(file.getAbsolutePath());
+            if (compString.compareTo(filepath.getAbsolutePath())==0){
+                 index=i;
+            }
+            
+            i++;
+        }
+           // System.out.println(filepath.getCanonicalPath()+"\n"+filepath.getParent());
+
+        return index;
+    }
 
     public static String getLabel(File f) {
         String name = f.getName();
@@ -47,4 +69,7 @@ public class Labeler {
         }
         return res;
     }
+
+    
+
 }

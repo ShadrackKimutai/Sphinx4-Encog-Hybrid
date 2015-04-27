@@ -73,7 +73,8 @@ public class TestEncogNN extends javax.swing.JInternalFrame {
         txtSingleWordUtter = new javax.swing.JTextField();
         btnRecogFile = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
-        jTextField1 = new javax.swing.JTextField();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        txtSingleRecog = new javax.swing.JTextArea();
         jPanel3 = new javax.swing.JPanel();
         btnRecogFolder = new javax.swing.JButton();
         jPanel8 = new javax.swing.JPanel();
@@ -83,9 +84,12 @@ public class TestEncogNN extends javax.swing.JInternalFrame {
         txtBulkResults = new javax.swing.JTextArea();
 
         setClosable(true);
+        setIconifiable(true);
         setMaximizable(true);
         setResizable(true);
         setTitle("Test Trained Network");
+        setDoubleBuffered(true);
+        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/sphinx4/encognn/hybrid/Icons/logo.png"))); // NOI18N
         setMinimumSize(new java.awt.Dimension(700, 500));
         setPreferredSize(new java.awt.Dimension(700, 500));
 
@@ -172,20 +176,24 @@ public class TestEncogNN extends javax.swing.JInternalFrame {
 
         jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder("Recognized Word"));
 
+        txtSingleRecog.setColumns(20);
+        txtSingleRecog.setRows(5);
+        jScrollPane1.setViewportView(txtSingleRecog);
+
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTextField1)
+                .addComponent(jScrollPane1)
                 .addContainerGap())
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1)
                 .addContainerGap())
         );
 
@@ -216,7 +224,7 @@ public class TestEncogNN extends javax.swing.JInternalFrame {
                 .addComponent(btnRecogFile)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(117, Short.MAX_VALUE))
+                .addContainerGap(41, Short.MAX_VALUE))
         );
 
         jPanel5.getAccessibleContext().setAccessibleName("Open Single Spoken File");
@@ -376,16 +384,17 @@ public class TestEncogNN extends javax.swing.JInternalFrame {
         });
         }
     }//GEN-LAST:event_btnRecogFileActionPerformed
-    private void LoadnTestBulk(final List<File> files) {
+    private void LoadnTest(final List<File> files) {
         SwingWorker<Void, String> worker = new SwingWorker<Void, String>() {
             private int error;
-
+ BasicNetwork network = (BasicNetwork) EncogDirectoryPersistence.loadObject(SAVEDNNINSTANCE);
+               MLDataSet trainingSet = new BasicMLDataSet();
             
             @Override
             protected Void doInBackground() throws Exception {
                // System.out.println("Inside LoadnTest(final List<File> files)");
                 FeatureExtractor fe = new FeatureExtractor();
-                MLDataSet trainingSet = new BasicMLDataSet();
+                
                 int i = 0;
                 for (File f : files) {
 
@@ -410,7 +419,6 @@ public class TestEncogNN extends javax.swing.JInternalFrame {
                         i = 0;
                     }
                 }
-                BasicNetwork network = (BasicNetwork) EncogDirectoryPersistence.loadObject(SAVEDNNINSTANCE);
                 for (MLDataPair pair : trainingSet) {
                     final MLData output = network.compute(pair.getInput());
 
@@ -433,50 +441,61 @@ public class TestEncogNN extends javax.swing.JInternalFrame {
             @Override
             protected void done() {
                 float results=((31-error)*100)/31;
-              txtBulkResults.append(String.valueOf(results)+"% Words Recognized correctrly from this speaker");
+              txtBulkResults.append("Trancription accuracy for this speaker is: "+String.valueOf(results)+"% \nThe overall error of this network is:"+network.calculateError(trainingSet));
             }
 
         };
         worker.execute();
     }
 
-    private void LoadnTest(File file) {
-        FeatureExtractor fe = new FeatureExtractor();
-        MLDataSet trainingSet = new BasicMLDataSet();
+    private void LoadnTest(final File file) {
+        SwingWorker<Void, String> worker = new SwingWorker<Void, String>() {
 
+            @Override
+            protected Void doInBackground() throws Exception {
+                FeatureExtractor fe = new FeatureExtractor();
+                MLDataSet trainingSet = new BasicMLDataSet();
 
+                List<double[]> data;
+                try {
+                    data = fe.fileProcessor(file);
+                    MLData mldataIn = new BasicMLData(data.get(0));
+                    //	System.out.println(mldataIn);
+                    double[] out = new double[OUTPUT_NODES];
+                    Integer index = new Labeler().getIndex(file);
 
-        List<double[]> data;
-        try {
-            data = fe.fileProcessor(file);
-            MLData mldataIn = new BasicMLData(data.get(0));
-            //	System.out.println(mldataIn);
-            double[] out = new double[OUTPUT_NODES];
-            Integer index = new Integer(Labeler.getLabel(file));
-            //System.out.println(index+""+data.get(0));
-            out[index] = 1.;
-            MLData mldataout = new BasicMLData(out);
-            trainingSet.add(mldataIn, mldataout);
-        } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
-        }
+                    //System.out.println(index+""+data.get(0));
+                    out[index] = 1.;
+                    MLData mldataout = new BasicMLData(out);
+                    trainingSet.add(mldataIn, mldataout);
+                } catch (FileNotFoundException e) {
+                    // TODO Auto-generated catch block
+                }
 
+                BasicNetwork network = (BasicNetwork) EncogDirectoryPersistence.loadObject(SAVEDNNINSTANCE);
+                for (MLDataPair pair : trainingSet) {
+                    final MLData output = network.compute(pair.getInput());
+float error=nnTranscriptionAccuracy(file.getParent());
+                    txtSingleRecog.setText("actual-->" + Labeler.getWord(output) + ", ideal-->" + Labeler.getWord(pair.getIdeal())+" \nThis speaker had a transciption accuracy of:"+error+"% and the network has an overall error of:"+network.calculateError(trainingSet));
+                    
+                }
+                Encog.getInstance().shutdown();
 
-        BasicNetwork network = (BasicNetwork) EncogDirectoryPersistence.loadObject(SAVEDNNINSTANCE);
-        for (MLDataPair pair : trainingSet) {
-            final MLData output = network.compute(pair.getInput());
+                return null;
+            }
 
-            txtBulkResults.append("actual-->" + Labeler.getWord(output) + ", ideal-->" + Labeler.getWord(pair.getIdeal()));
-        txtBulkResults.moveCaretPosition(txtBulkResults.getText().length());
-        }
-        Encog.getInstance().shutdown();
-    
-       
+        };
+        worker.execute();
     }
 
-    
+    private void clearBulk(){
+        txtBulkResults.selectAll();
+        txtBulkResults.replaceSelection("");
+        txtBulkResults.removeAll();
+    }
     private void btnRecogFolderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRecogFolderActionPerformed
         // TODO add your handling code here:
+        clearBulk();
         if (txtIndividualsSpokenWord.getText() == "") {
             return;
         } else {
@@ -487,7 +506,7 @@ public class TestEncogNN extends javax.swing.JInternalFrame {
                     FileProcessor fp = new FileProcessor();
                     String inputAudioFiles = txtIndividualsSpokenWord.getText();
                     List<File> files = fp.wavFileProcessor(inputAudioFiles);
-                    LoadnTestBulk(files);
+                    LoadnTest(files);
                 }
             });
         }
@@ -535,6 +554,57 @@ public class TestEncogNN extends javax.swing.JInternalFrame {
 
         return network;
     }
+    private float nnTranscriptionAccuracy(String Path){
+       FileProcessor fp=new FileProcessor();
+        List<File> files = fp.wavFileProcessor(Path);
+                   
+             int error=0;
+ BasicNetwork network = (BasicNetwork) EncogDirectoryPersistence.loadObject(SAVEDNNINSTANCE);
+               MLDataSet trainingSet = new BasicMLDataSet();
+                      
+         FeatureExtractor fe = new FeatureExtractor();
+                
+                int i = 0;
+                for (File f : files) {
+
+
+                    List<double[]> data;
+                    try {
+                        data = fe.fileProcessor(f);
+                        MLData mldataIn = new BasicMLData(data.get(0));
+                        //	System.out.println(mldataIn);
+                        double[] out = new double[OUTPUT_NODES];
+                        //Integer index = new Integer(Labeler.getLabel(f));
+                       //System.out.println(i+""+data.get(0));
+                        out[i] = 1.;
+                        MLData mldataout = new BasicMLData(out);
+                        trainingSet.add(mldataIn, mldataout);
+                    } catch (FileNotFoundException e) {
+                        // TODO Auto-generated catch block
+                    }
+                    if (i < 30) {
+                        i++;
+                    } else {
+                        i = 0;
+                    }
+                }
+                for (MLDataPair pair : trainingSet) {
+                    final MLData output = network.compute(pair.getInput());
+
+                  // txtBulkResults.append("actual-->" + Labeler.getWord(output) + ", ideal-->" + Labeler.getWord(pair.getIdeal())+"\n");
+                   //txtBulkResults.moveCaretPosition(txtBulkResults.getText().length());
+                   String s =String.valueOf(Labeler.getWord(pair.getIdeal()));
+                   String t=String.valueOf(Labeler.getWord(output));
+                   if (Integer.valueOf(s.compareTo(t))!=0)
+                       error++;
+                }
+                Encog.getInstance().shutdown();
+float results=((31-error)*100)/31;
+                return results;
+                 
+          
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JSlider accuracySlider;
     private javax.swing.JButton btnRecogFile;
@@ -549,11 +619,12 @@ public class TestEncogNN extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel8;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JTextArea txtBulkResults;
     private javax.swing.JTextField txtIndividualsSpokenWord;
+    private javax.swing.JTextArea txtSingleRecog;
     private javax.swing.JTextField txtSingleWordUtter;
     // End of variables declaration//GEN-END:variables
 }

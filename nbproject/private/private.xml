@@ -1,4 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/1"/>
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/C:/Users/Shadrack/Documents/NetBeansProjects/Sphinx4-Encog-Hybrid/src/sphinx4/encognn/hybrid/util/FileProcessor.java</file>
+            <file>file:/C:/Users/Shadrack/Documents/NetBeansProjects/Sphinx4-Encog-Hybrid/src/sphinx4/encognn/hybrid/nn/encog/recognizer/Recognizer.java</file>
+            <file>file:/C:/Users/Shadrack/Documents/NetBeansProjects/Sphinx4-Encog-Hybrid/src/sphinx4/encognn/hybrid/util/Processor.java</file>
+            <file>file:/C:/Users/Shadrack/Documents/NetBeansProjects/Sphinx4-Encog-Hybrid/src/sphinx4/encognn/hybrid/encogNeuralNet.java</file>
+            <file>file:/C:/Users/Shadrack/Documents/NetBeansProjects/Sphinx4-Encog-Hybrid/src/sphinx4/encognn/hybrid/SphinxTrain.java</file>
+            <file>file:/C:/Users/Shadrack/Documents/NetBeansProjects/Sphinx4-Encog-Hybrid/src/sphinx4/encognn/hybrid/TestEncogNN.java</file>
+            <file>file:/C:/Users/Shadrack/Documents/NetBeansProjects/Sphinx4-Encog-Hybrid/src/sphinx4/encognn/hybrid/util/Labeler.java</file>
+            <file>file:/C:/Users/Shadrack/Documents/NetBeansProjects/Sphinx4-Encog-Hybrid/src/sphinx4/encognn/hybrid/mainForm.java</file>
+        </group>
+    </open-files>
 </project-private>

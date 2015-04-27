@@ -30,12 +30,13 @@ public class SphinxTrain extends javax.swing.JInternalFrame {
         setResizable(true);
         setTitle("Sphinx 4 Panel ");
         setDoubleBuffered(true);
+        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/sphinx4/encognn/hybrid/Icons/logo.png"))); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 394, Short.MAX_VALUE)
+            .addGap(0, 562, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

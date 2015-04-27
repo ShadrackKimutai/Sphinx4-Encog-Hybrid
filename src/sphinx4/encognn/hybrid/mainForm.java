@@ -150,6 +150,7 @@ public class mainForm extends javax.swing.JFrame {
 
     private void saveMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveMenuItemActionPerformed
         // TODO add your handling code here:
+        
         TestEncogNN tstEn=new TestEncogNN();
         desktopPane.add(tstEn);
          tstEn.setVisible(true);
