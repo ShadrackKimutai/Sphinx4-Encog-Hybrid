@@ -229,7 +229,7 @@ public class TestEncogNN extends javax.swing.JInternalFrame {
 
         jPanel5.getAccessibleContext().setAccessibleName("Open Single Spoken File");
 
-        jTabbedPane1.addTab("Add Word", jPanel1);
+        jTabbedPane1.addTab("Test Word", jPanel1);
 
         jPanel3.setMinimumSize(new java.awt.Dimension(900, 500));
         jPanel3.setPreferredSize(new java.awt.Dimension(900, 500));

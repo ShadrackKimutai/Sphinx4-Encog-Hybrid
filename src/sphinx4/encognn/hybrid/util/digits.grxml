@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE grammar PUBLIC "-//W3C//DTD GRAMMAR 1.0//EN" "http://www.w3.org/TR/speech-grammar/grammar.dtd">
+<grammar xmlns="http://www.w3.org/2001/06/grammar" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xml:lang="en" xsi:schemaLocation="http://www.w3.org/2001/06/grammar                               http://www.w3.org/TR/speech-grammar/grammar.xsd" version="1.0" mode="voice" root="digits">
+  <rule id="digits" scope="public">
+    <item repeat="1-">
+      <one-of>
+        <item> dawa </item>
+        <item> bao </item>
+        <item> chama </item>
+        <item> dhambi </item>
+        <item> debe </item>
+        <item> faidha </item>
+        <item> goli </item> 
+        <item> ghali </item>
+        <item> hela </item>
+        <item> wimbi </item>
+        <item> jino </item>
+        <item> kanga </item>
+        <item> sabalkheri </item>
+       	<item> lima </item>
+        <item> mamba </item>
+        <item> neno </item>
+        <item> ng'ombe </item>
+        <item> nyota </item>           
+        <item> noa </item>
+        <item> papa </item>
+        <item> rahisi </item>
+        <item> saruji </item>
+        <item> shemeji </item>
+        <item> tumaini </item>
+        <item> theluji </item>
+        <item> uta </item>
+        <item> vua </item>
+        <item> wewe </item>
+        <item> yeye </item>
+        <item> zizi </item>
+       </one-of>
+    </item>
+  </rule>
+</grammar>

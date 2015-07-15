@@ -139,8 +139,8 @@
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-              <JTabbedPaneConstraints tabName="Add Word">
-                <Property name="tabTitle" type="java.lang.String" value="Add Word"/>
+              <JTabbedPaneConstraints tabName="Test Word">
+                <Property name="tabTitle" type="java.lang.String" value="Test Word"/>
               </JTabbedPaneConstraints>
             </Constraint>
           </Constraints>

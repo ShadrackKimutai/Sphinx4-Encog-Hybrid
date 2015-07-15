@@ -1,0 +1,9 @@
+#JSGF V1.0;
+
+/**
+ * JSGF Digits Grammar for Hello World example
+ */
+
+grammar digits;
+
+public <numbers> = (   dawa | bao | chama | dhambi | debe | faidha | goli | ghali | hela   | wimbi  | jino  | kanga | sabalkheri | lima | mamba | neno | ng'ombe | nyota | noa | papa | rahisi | saruji | shemeji |tumaini  | theluji | uta  | vua  | wewe | yeye  | zizi ) * ;

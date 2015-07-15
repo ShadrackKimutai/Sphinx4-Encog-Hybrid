@@ -4,8 +4,14 @@
 package sphinx4.encognn.hybrid.util;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import sphinx4.encognn.hybrid.encogNeuralNet;
 
 
 
@@ -68,5 +74,8 @@ public class FileProcessor   {
           }
           return trainFiles;
         }
+        
 	
+       
+    
 }

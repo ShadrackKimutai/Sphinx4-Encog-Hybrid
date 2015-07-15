@@ -130,7 +130,7 @@ public class Dictionary extends javax.swing.JInternalFrame {
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 223, Short.MAX_VALUE)
+            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 227, Short.MAX_VALUE)
         );
 
         jButton4.setText("Generate Dictionary");
@@ -202,12 +202,13 @@ public class Dictionary extends javax.swing.JInternalFrame {
                 .addComponent(btnGenDict)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnSave)
-                .addContainerGap(301, Short.MAX_VALUE))
+                .addContainerGap(305, Short.MAX_VALUE))
         );
 
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Dictionary"));
 
         txtDict.setColumns(20);
+        txtDict.setLineWrap(true);
         txtDict.setRows(5);
         jScrollPane2.setViewportView(txtDict);
 
@@ -262,7 +263,7 @@ public class Dictionary extends javax.swing.JInternalFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 443, Short.MAX_VALUE)
         );
 
         pack();
@@ -302,7 +303,38 @@ public class Dictionary extends javax.swing.JInternalFrame {
     private void txtWordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtWordActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtWordActionPerformed
+private void btnGenDictActionPerformed(java.awt.event.ActionEvent evt) { 
+      // TODO add your handling code here:
+        JOptionPane.showMessageDialog(this, "Dictionary will be generated after clicking ok");
+        txtAddedWords.append("\n");
+        String s = txtAddedWords.getText();
+        int count = txtAddedWords.getLineCount();
+        int i = 0;
+        try {
+            
+            for (i = 0; i <= count - 1; i++) {
+               // System.out.println("i is:" + i + " Count is:" + count + "-->: ");
+                if (count - i > 1) {
+                  // System.out.println(s.substring(0, s.indexOf("\n")));
+                    String tempString = s.substring(0, s.indexOf("\n"));
+                   checkWordDepreceated(tempString);
+                    if (s.contains("\n") && (!s.isEmpty())) {
+                        s = s.substring(s.indexOf("\n") + 1, s.length());
+                        //System.out.println(s);
+                    } else {
+                    } 
+                } else {
+                   // System.out.println(s);
+                }
 
+            }
+           
+            
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
+}
+    /*
     private void btnGenDictActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenDictActionPerformed
         // TODO add your handling code here:
         JOptionPane.showMessageDialog(this, "Dictionary will be generated after clicking ok");
@@ -311,9 +343,9 @@ public class Dictionary extends javax.swing.JInternalFrame {
         int count = txtAddedWords.getLineCount();
         int i = 0;
         try {
-
+            
             for (i = 0; i <= count - 1; i++) {
-                //System.out.println("i is:" + i + " Count is:" + count + "-->: ");
+                System.out.println("i is:" + i + " Count is:" + count + "-->: ");
                 if (count - i > 1) {
                     //System.out.println(s.substring(0, s.indexOf("\n")));
                     String tempString = s.substring(0, s.indexOf("\n"));
@@ -322,17 +354,19 @@ public class Dictionary extends javax.swing.JInternalFrame {
                         s = s.substring(s.indexOf("\n") + 1, s.length());
                         //System.out.println(s);
                     } else {
-                    }
+                    } 
                 } else {
                     System.out.println(s);
                 }
 
             }
+           
+            
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
     }//GEN-LAST:event_btnGenDictActionPerformed
-
+*/
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
 
         PrintWriter out = null;
@@ -348,7 +382,8 @@ public class Dictionary extends javax.swing.JInternalFrame {
 
 
             out = new PrintWriter(saveDialog);
-            out.println(txtDict.getText());
+         // out.append(txtDict.getText());
+          out.print(txtDict.getText());
         } catch (FileNotFoundException ex) {
             Logger.getLogger(Dictionary.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
@@ -422,6 +457,23 @@ public class Dictionary extends javax.swing.JInternalFrame {
             }
 
             txtDict.append(label + " : " + testWord + "\n");
+        }
+    }
+     private void checkWordDepreceated(String testWord) {
+        int strLength = 15; //testWord.length();
+        Labeler lb = new Labeler();
+        String label = "";
+        //System.out.println(testWord);
+        if(!testWord.isEmpty()){
+            for (int i = 0; i <= strLength - 1; i++) {
+                if (testWord.length() > i) {
+                    label = label ;
+                } else {
+                    
+                }
+            }
+
+            txtDict.append(label  + testWord + "\n");
         }
     }
 }
