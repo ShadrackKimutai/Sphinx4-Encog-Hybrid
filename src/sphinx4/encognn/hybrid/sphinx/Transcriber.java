@@ -77,10 +77,10 @@ public class Transcriber {
 
     }
 
-    public void transcribe(String canonicalPath,URL configURL) throws MalformedURLException, UnsupportedAudioFileException {
+    public String transcribe(String canonicalPath,URL configURL) throws MalformedURLException, UnsupportedAudioFileException {
         // TODO Auto-generated method stub
         URL audioURL;
-
+  String resultText="";
         audioURL = new File(canonicalPath).toURI().toURL();
 
        // URL configURL = new ;//Transcriber.class.getResource("Config.xml");
@@ -103,14 +103,20 @@ public class Transcriber {
 
             while ((result = recognizer.recognize()) != null) {
 
-                String resultText = result.getBestResultNoFiller();
-                System.out.println(resultText);
+                 resultText = result.getBestResultNoFiller();
+               /* 
+                System.out.println("BestPronunciationResult"+result.getBestPronunciationResult()
+                        + 
+                        "\nBestResultNoFilter "+result.getBestResultNoFiller());
+                */
+               // System.out.println(resultText);
 
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
             // TODO: handle exception
         }
+        return resultText;
     }
 
     private static void printWordConfidence(WordResult wr) {

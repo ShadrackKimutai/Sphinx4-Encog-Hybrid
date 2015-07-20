@@ -320,6 +320,7 @@ public class TestSphinx4 extends javax.swing.JInternalFrame {
 
     private void btnRecogFolderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRecogFolderActionPerformed
         // TODO add your handling code here:
+        
         clearBulk();
         if (txtIndividualsSpokenWord.getText() == "") {
             return;
@@ -330,12 +331,13 @@ public class TestSphinx4 extends javax.swing.JInternalFrame {
                 public void run() {
                     Transcriber t = new Transcriber();
                     FileProcessor fp = new FileProcessor();
-                    String inputAudioFile = "C:\\Users\\Shadrack\\Documents\\Refined\\Speaker5";
-                    List<File> files = fp.wavFileProcessor(inputAudioFile);
+                    String inputAudioFolder =txtIndividualsSpokenWord.getText() ;
+                    //System.out.println(inputAudioFolder);// confirm source
+                    List<File> files = fp.wavFileProcessor(inputAudioFolder);
                     for (File x : files) {
                         System.out.println(x.getName());
                         try {
-                            t.transcribe(x.getCanonicalPath(), CONFIGPATH);
+                           txtBulkResults.append( t.transcribe(x.getCanonicalPath(), CONFIGPATH));
                         } catch (IOException ex) {
                             Logger.getLogger(TestSphinx4.class.getName()).log(Level.SEVERE, null, ex);
                        
