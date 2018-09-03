@@ -1,0 +1,4 @@
+In order to have this run in you box, you need
+1. to have installed java 
+2. preferably a JAVA IDE eg Eclipse or Netbeans
+3. Mysql -user root -password as blank for the training.the database should be called SPhinx4NNHybrid
